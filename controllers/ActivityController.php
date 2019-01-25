@@ -24,7 +24,7 @@ class ActivityController extends BaseController
    {
        return [
            'index' => ['class' => ActivityIndexAction::class,
-               'setting' => 'param'
+               'settings' => 'param'
            ],
            'index1' => ActivityIndexAction::class,
 

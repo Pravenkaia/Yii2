@@ -14,7 +14,7 @@ use yii\base\Action;
 
 class ActivityIndexAction extends Action
 {
-    public $setting; //параметры, установки
+    public $settings; //параметры, установки
     /**
      *  определяем свою (НЕ переопределяем)
      */
@@ -31,13 +31,13 @@ class ActivityIndexAction extends Action
             $activity->arrayErrors = $activity->getErrors();
             //VarDumper::dump($activity->getErrors()); exit;
         };
-
+        //echo $this->settings; exit;
         //    $attr = $activity->getAttributes();
         //    echo '<pre>';
         //    VarDumper::dump($attr);
         //    echo '</pre>';
         //     exit;
 
-        return $this->controller->render('index', ['model' => $activity, 'myLabel' => 123456]);
+        return $this->controller->render('index', ['model' => $activity, 'settings' => $this->settings]);
     }
 }
