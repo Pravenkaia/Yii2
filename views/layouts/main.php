@@ -59,11 +59,24 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
+
+
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
+
+        <div style="background-color:rgb(153, 255, 153)">
+            <br><br><?='127.0.0.1' . $_SERVER['REQUEST_URI']; ?><br>
+
+            <?=  Yii::$app->session->getFlash('userPage'); ?>
+            <?= Yii::$app->getSession()->setFlash('userPage',
+                '127.0.0.1' . $_SERVER['REQUEST_URI']);?>
+            <br><br>
+        </div>
+
+
         <?= $content ?>
     </div>
 </div>

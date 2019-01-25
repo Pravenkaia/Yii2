@@ -38,7 +38,6 @@ class ActivityIndexAction extends Action
         //    echo '</pre>';
         //     exit;
 
-
-        return $this->controller->render('index', ['model' => $activity]);
+        return $this->controller->render('index', ['model' => $activity, 'myLabel' => 123456]);
     }
 }

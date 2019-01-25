@@ -14,4 +14,9 @@ use yii\web\Controller;
 class BaseController extends Controller
 {
 
+
+
+        //Yii::$app->getSession()->setFlash('userPage', '127.0.0.1' . $_SERVER['REQUEST_URI']);
+
+
 }
