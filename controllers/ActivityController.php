@@ -10,27 +10,24 @@ namespace app\controllers;
 
 
 use app\base\BaseController;
+use app\controllers\actions\ActivityIndexAction;
 use app\models\Activity;
 use yii\helpers\VarDumper;
 
 class ActivityController extends BaseController
 {
+    /**
+     * @return array
+     * переопределяем
+     */
+   public function actions()
+   {
+       return [
+           'index' => ['class' => ActivityIndexAction::class,
+               'setting' => 'param'
+           ],
+           'index1' => ActivityIndexAction::class,
 
-    public function actionIndex(){
-
-        $activity = new Activity();
-
-        $activity->title = 'Событие';
-
-      // if (!$activity->validate()) echo '442536'; // не работает
-
-            $attr = $activity->getAttributes();
-            echo '<pre>';
-            VarDumper::dump($attr);
-            echo '</pre>';
-            exit;
-        //}
-
-        return $this->render('index',[]);
-    }
+       ];
+   }
 }
