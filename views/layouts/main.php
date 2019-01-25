@@ -67,12 +67,10 @@ AppAsset::register($this);
         ]) ?>
         <?= Alert::widget() ?>
 
-        <div style="background-color:rgb(153, 255, 153)">
-            <br><br><?='127.0.0.1' . $_SERVER['REQUEST_URI']; ?><br>
-
-            <?=  Yii::$app->session->getFlash('userPage'); ?>
-            <?= Yii::$app->getSession()->setFlash('userPage',
-                '127.0.0.1' . $_SERVER['REQUEST_URI']);?>
+        <div class="panel panel-info" >
+            <div class="panel-body">
+            <?=  Yii::$app->request->hostName.Yii::$app->session->getFlash('userPage'); ?>
+            </div>
             <br><br>
         </div>
 

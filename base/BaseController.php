@@ -18,5 +18,9 @@ class BaseController extends Controller
 
         //Yii::$app->getSession()->setFlash('userPage', '127.0.0.1' . $_SERVER['REQUEST_URI']);
 
-
+    public function afterAction($action, $result)
+    {
+        \Yii::$app->session->setFlash('userPage',\Yii::$app->request->url);
+        return parent::afterAction($action, $result);
+    }
 }
