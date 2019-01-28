@@ -10,7 +10,7 @@ namespace app\models;
 
 
 use yii\base\Model;
-
+use yii\web\UploadedFile;
 use yii\rbac\Rule;
 
 /**
@@ -138,18 +138,24 @@ class Activity extends Model
         ];
     }
 
+    public $files;
     public function upload()
     {
+        $this->files = $this->document;
+        if (empty($this->files)) $this->files = 'Фигня какая-то';
+
         if ($this->validate()) {
+
             //документ
             $this->document->saveAs('uploads/' . 'doc_' . date('d-m-Y',time())  . '.' . $this->document->extension); // $this->document->baseName
-            //картинки
-            $i = 1;
-            foreach ($this->picture as $file) {
-                $file->saveAs('uploads/' . date('d-m-Y',time()) . $i++ . '.' . $file->extension); //$file->baseName
-            }
-            return true;
+        //    //картинки
+        //    $i = 1;
+        //    foreach ($this->picture as $file) {
+        //        $file->saveAs('uploads/' . date('d-m-Y',time()) . $i++ . '.' . $file->extension); //$file->baseName
+        //    }
+            return true; //true;
         } else {
+            $this->document->saveAs('uploads/' . 'doc_' . date('d-m-Y',time())  . '.' . $this->document->extension); // $this->document->baseName
             return false;
         }
     }

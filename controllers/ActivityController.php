@@ -11,7 +11,7 @@ namespace app\controllers;
 
 use app\base\BaseController;
 use app\controllers\actions\ActivityIndexAction;
-
+use app\controllers\actions\SubmitAction;
 
 class ActivityController extends BaseController
 {
@@ -25,7 +25,7 @@ class ActivityController extends BaseController
            'index' => ['class' => ActivityIndexAction::class,
                'settings' => 'param'
            ],
-           'index1' => ActivityIndexAction::class,
+           'submit' => SubmitAction::class,
 
        ];
    }

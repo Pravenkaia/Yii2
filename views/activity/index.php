@@ -6,6 +6,7 @@
  * Time: 21:44
  * @var $model \app\models\Activity
  */
+use yii\helpers\Url;
 
 
 
@@ -18,6 +19,7 @@ $form = \yii\bootstrap\ActiveForm::begin(
     ]
 );
 ?>
+    <?=$form->action = Url::to(['activity/submit']); ?>
 
     <?=$form->field($model,'title');?>
     <?=$form->field($model,'description')->textarea(['class'=>'form-control good']);?>

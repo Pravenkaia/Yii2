@@ -31,20 +31,8 @@ class ActivityIndexAction extends Action
 
         if ($activity->validate()) {
             $activity->arrayErrors = '';
-            if (\Yii::$app->request->isPost) {
-                if($activity->load(\Yii::$app->request->post())) {
-                    /**
-                     * @var UploadedFile picture
-                     */
-                    $activity->picture  = UploadedFile::getInstances($activity, 'picture');
-
-                    /**
-                     * @var UploadedFile document
-                     */
-                    $activity->document = UploadedFile::getInstance($activity, 'document');
-                }
-            }
-        } else {
+        }
+        else {
             $activity->arrayErrors = $activity->getErrors();
             //VarDumper::dump($activity->getErrors()); exit;
         };
@@ -55,7 +43,7 @@ class ActivityIndexAction extends Action
         //    echo '</pre>';
         //     exit;
 
-        \Yii::$app->view->params['settings'] = $this->settings;
+        \Yii::$app->view->params['settings'] = $this->settings ;
         return $this->controller->render('index', ['model' => $activity, 'settings' => $this->settings]);
     }
 }

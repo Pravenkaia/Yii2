@@ -23,7 +23,7 @@ $form = \yii\bootstrap\ActiveForm::begin(
 );
 ?>
 
-   $form->action = Url::to(['submit']);
+   $form->action = Url::to(['action/submit']);
 <h2>Введено: <?= Html::encode($model->title); ?></h2>
 <p>Ошибки: <?= \yii\helpers\VarDumper::dump($model->arrayErrors); ?></p>
     <?=$form->field($model,'title');?>
