@@ -20,7 +20,7 @@ use yii\rbac\Rule;
  * @package app\models
  * Сущность события,  хранимого в календаре
  */
-class Activity extends Model
+class Activity extends ActivityBase
 {
     /**
      * ID события
@@ -107,7 +107,7 @@ class Activity extends Model
      */
     public function rules()
     {
-        return [
+        return array_merge([
             [['title', 'description'], 'required'],
             ['title','string','min' => 3],
             [['isRepeatable', 'isBlocking'], 'boolean'],
@@ -115,7 +115,7 @@ class Activity extends Model
             [['picture'], 'image', 'maxFiles' => 10],
             ['document', 'file', 'extensions' => ['pdf']]
             //['idAuthor', 'required'],
-        ];
+        ],parent::rules());
     }
 
     /**

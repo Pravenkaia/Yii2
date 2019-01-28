@@ -1,7 +1,8 @@
 <?php
 
 $params = require __DIR__ . '/params.php';
-$db = require __DIR__ . '/db.php';
+$db_config_file = file_exists( __DIR__ .  '/db_local.php') ? '/db_local.php' : '/db.php';
+$db = require __DIR__  .  $db_config_file;
 
 $config = [
     'id' => 'basic-console',
