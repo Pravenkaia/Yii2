@@ -24,10 +24,8 @@ class SubmitAction extends Action
             $activity->load(Yii::$app->request->post());
 
             $activity->document = UploadedFile::getInstance($activity, 'document');
-            $activity->upload();
-            if ($activity->upload()) {
-                // file is uploaded successfully
-                //
+            if(!$activity->upload()){
+                return $this->controller->render('index',['model'=>$activity]);
             }
         }
 

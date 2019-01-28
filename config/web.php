@@ -23,14 +23,15 @@ $config = [
     ],
 
     //модули
-    // 'modules' => [
-    //        'activity' => [
-    //            'class' => 'app\modules\activity\Module',
-    //        ],
-    //  ],
+     'modules' => [
+            'activity' => [
+                'class' => 'app\modules\activity\Module',
+            ],
+      ],
 
     // компоненты
     'components' => [
+        'dao'=>\app\components\DaoComponent::class,
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'CNEQGE_XzvJU7dfAmDxrM9fZ2GMBvicG',

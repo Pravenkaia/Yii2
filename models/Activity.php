@@ -10,6 +10,8 @@ namespace app\models;
 
 
 use yii\base\Model;
+use yii\helpers\FileHelper;
+use yii\web\HttpException;
 use yii\web\UploadedFile;
 use yii\rbac\Rule;
 
@@ -18,7 +20,7 @@ use yii\rbac\Rule;
  * @package app\models
  * Сущность события,  хранимого в календаре
  */
-class Activity extends Model
+class Activity extends ActivityBase
 {
     /**
      * ID события
@@ -105,15 +107,15 @@ class Activity extends Model
      */
     public function rules()
     {
-        return [
-            [['title', 'description', 'dateStart'], 'required'],
+        return array_merge([
+            [['title', 'description'], 'required'],
             ['title','string','min' => 3],
             [['isRepeatable', 'isBlocking'], 'boolean'],
             ['email','email'],
             [['picture'], 'image', 'maxFiles' => 10],
             ['document', 'file', 'extensions' => ['pdf']]
             //['idAuthor', 'required'],
-        ];
+        ],parent::rules());
     }
 
     /**
@@ -138,26 +140,27 @@ class Activity extends Model
         ];
     }
 
-    public $files;
+    public $files=[];
     public function upload()
     {
-        $this->files = $this->document;
-        if (empty($this->files)) $this->files = 'Фигня какая-то';
 
         if ($this->validate()) {
 
+            $path=\Yii::getAlias('@app/uploads/');
+            if(!FileHelper::createDirectory($path)){
+                throw new HttpException('Не удалось создать папку по адресу '.$path);
+            }
+            $this->files[]=$this->document->name;
             //документ
-            $this->document->saveAs('uploads/' . 'doc_' . date('d-m-Y',time())  . '.' . $this->document->extension); // $this->document->baseName
+            $this->document->saveAs($path . 'doc_' . date('d-m-Y',time())  . '.' . $this->document->extension); // $this->document->baseName
         //    //картинки
         //    $i = 1;
         //    foreach ($this->picture as $file) {
         //        $file->saveAs('uploads/' . date('d-m-Y',time()) . $i++ . '.' . $file->extension); //$file->baseName
         //    }
             return true; //true;
-        } else {
-            $this->document->saveAs('uploads/' . 'doc_' . date('d-m-Y',time())  . '.' . $this->document->extension); // $this->document->baseName
-            return false;
         }
+        return false;
     }
 
 

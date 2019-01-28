@@ -10,6 +10,10 @@ class ActivityFormController extends BaseController
         return $this->render('activity_form/index');
     }
 
+    public function actionTwoLetter(){
+
+    }
+
     public function actionSubmit()
     {
         return $this->render('activity_form/submit');

@@ -32,9 +32,5 @@ $form = \yii\bootstrap\ActiveForm::begin(
         <button class="btn btn-default" type="submit">Отправить</button>
     </div>
 
-<div class="form-group">
-    <input class="btn btn-default" type="submit" value="Отправить">
-</div>
-
 <?php \yii\bootstrap\ActiveForm::end(); ?>
 
