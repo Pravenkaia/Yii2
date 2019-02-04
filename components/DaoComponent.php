@@ -18,6 +18,13 @@ use yii\log\Logger;
 
 class DaoComponent extends Component
 {
+    public function getAuthItem() {
+        $query = new Query();
+        return $query->select('*,*')
+            ->from('auth_item')
+            ->createCommand()
+            ->queryAll();
+    }
 
     public function queryTransact() {
         $transaction  = $this->getDb()->beginTransaction();

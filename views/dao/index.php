@@ -13,6 +13,15 @@
 
 <div class="row">
 
+    <h2>auth_item</h2>
+    <pre>
+
+                <?= \yii\helpers\VarDumper::dump($auth); ?>
+     </pre>
+</div>
+
+<div class="row">
+
     <h2>Все пользователи</h2>
 </div>
 

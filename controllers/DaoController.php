@@ -30,7 +30,8 @@ class DaoController extends BaseController
         return $this->render('index', [
             'users' => $dao->getAllUsers(),
             'activities' => $dao->getAllActivities(),
-            'cnt' => $dao->getCountActivities($id_user)
+            'cnt' => $dao->getCountActivities($id_user),
+            'auth' => $dao->getAuthItem()
             ]);
     }
 
