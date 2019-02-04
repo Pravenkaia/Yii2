@@ -28,6 +28,7 @@ class RbacComponent extends Component
      * @throws \Exception
      */
     public function generateRules() {
+
         $authManager = $this->getAuthManager();
         $authManager->removeAll();
 
