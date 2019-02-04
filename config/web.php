@@ -35,6 +35,10 @@ $config = [
     'components' => [
         'dao' => 'app\components\DaoComponent',
         'auth' => 'app\components\AuthComponent',
+        'authManager' => 'yii\rbac\DbManager',
+        'rbac' => [
+            'class' => 'app\components\RbacComponent',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'CNEQGE_XzvJU7dfAmDxrM9fZ2GMBvicG',
@@ -46,7 +50,7 @@ $config = [
             'identityClass' => 'app\models\Users',
             'enableAutoLogin' => true,
         ],
-        //'user' => [
+        //'user' => [  // настройки из коробкм
         //    'identityClass' => 'app\models\User',
         //    'enableAutoLogin' => true,
         //],
