@@ -37,15 +37,16 @@ class ActivityBase extends \yii\db\ActiveRecord
     {
         return [
             [['id_user', 'is_repeatable', 'is_blocking'], 'integer'],
-            [['title'], 'required'],//, 'date_start'
-           // [['date_start', 'date_end', 'date_created', 'date_changed'], 'safe'],
-            [['title'], 'string', 'max' => 150, 'skipOnError' => false],
-           // [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['id_user' => 'id']],
+            [['title', 'date_start'], 'required'],
+            [['date_start', 'date_end', 'date_created', 'date_changed'], 'safe'],
+            [['description'], 'string'],
+            [['title'], 'string', 'max' => 150],
+            [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['id_user' => 'id']],
         ];
     }
 
     /**
-     * {@inheritdoc}ы
+     * {@inheritdoc}
      */
     public function attributeLabels()
     {
@@ -59,6 +60,7 @@ class ActivityBase extends \yii\db\ActiveRecord
             'is_blocking' => Yii::t('app', 'Is Blocking'),
             'date_created' => Yii::t('app', 'Date Created'),
             'date_changed' => Yii::t('app', 'Date Changed'),
+            'description' => Yii::t('app', 'Description'),
         ];
     }
 

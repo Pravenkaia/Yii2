@@ -24,7 +24,7 @@ class AuthController extends BaseController
 
         if (\Yii::$app->request->isPost) {
             $model->load(\Yii::$app->request->post());
-
+            $model->setScenarioRegister();
             if ($model->registration()) {
                 \Yii::$app->session->setFlash('success', 'Создан новый пользователь ' . $model->id);
             }

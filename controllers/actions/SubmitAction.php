@@ -37,7 +37,7 @@ class SubmitAction extends Action
             $activity->formatDates();  //форматирует даты для бд (app\models\Activity;)
 
             if (!\Yii::$app->user->isGuest)
-                $activity->id_user = \Yii::$app->user->identity->getId();
+                $activity->id_user = \Yii::$app->user->getId();
             else $activity->id_user = 0;
 
             if ($activity->id_user > 0) :

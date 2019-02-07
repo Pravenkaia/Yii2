@@ -25,9 +25,12 @@ class ActivityFormAction extends Action
 
         $activity->array_errors = '';
         //определяем id_user
-        if(!\Yii::$app->user->isGuest)
+        if(!\Yii::$app->user->isGuest) {
             $activity->id_user = \Yii::$app->user->identity->getId();
-        else $activity->id_user = 0;
+        }
+        else {
+            $activity->id_user = 0;
+        }
         //var_dump($activity->id_user); exit;
 
         if ($activity->validate()) { // успешная валидация данных

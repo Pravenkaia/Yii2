@@ -27,6 +27,12 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public $password;
 
+    const SCENARIO_REGISTER='register_scenario';
+
+    public function setScenarioRegister(){
+        $this->setScenario(self::SCENARIO_REGISTER);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -131,7 +137,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
             [['date_created'], 'safe'],
             [['username'], 'string', 'max' => 200],
             [['email'], 'string', 'max' => 120],
-            ['password', 'passwordValidator'],
+            ['password', 'passwordValidator','except'=>self::SCENARIO_REGISTER],
             // [['password_hash'], 'string', 'max' => 64],
             [['token'], 'string', 'max' => 300],
         ];
