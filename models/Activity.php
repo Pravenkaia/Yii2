@@ -23,70 +23,7 @@ use yii\rbac\Rule;
  */
 class Activity extends ActivityBase
 {
-    /**
-     * ID события
-     * @var $id_activity int
-     */
-    public $id_activity;
 
-    /**
-     * ID автора, создавшего события
-     * @var $id_user int
-     */
-    public $id_user;
-
-    /**
-     * @var $title string
-     * название события
-     */
-    public $title;
-
-    /**
-     * @var $description string
-     * Описание события
-     */
-    public $description;
-
-    /**
-     * @var $date_start int
-     *  дата начала события
-     *  Значение Unix timestamp
-     */
-    public $date_start;
-
-    /**
-     * @var $date_end int
-     *  дата начала события
-     *  Значение Unix timestamp
-     */
-    public $date_end;
-
-    /**
-     * @var $is_repeatable boolean
-     * повторяющееся событие
-     */
-    public $is_repeatable;
-
-    /**
-     * @var $is_blocking boolean
-     * повторяющееся событие
-     */
-    public $is_blocking;
-
-    /**
-     * @var int $date_created
-     */
-    public $date_created;
-
-    /**
-     * @var int $date_changed
-     */
-    public $date_changed;
-
-    /**
-     * просто так (подписка на события все-таки по id юзера)
-     * @var $email string
-     */
     public $email;
 
     /**
