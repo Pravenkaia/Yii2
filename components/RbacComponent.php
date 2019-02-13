@@ -75,7 +75,7 @@ class RbacComponent extends Component
         $authManager->assign($admin,25);
         $authManager->assign($user, 1);
         $authManager->assign($user, 29);
-        $authManager->assign($user, 32);
+        $authManager->assign($user, 33);
         $authManager->assign($user, 42);
 
 

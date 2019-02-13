@@ -39,7 +39,8 @@ class ActivityFormAction extends Action
             throw new HttpException(401, 'The user is not authorized');
            // \Yii::$app->session->setFlash('error', 'Только для авторизованных пользователей!');
         else:
-        if(\Yii::$app->user->can('createActivity')) {
+        if(!\Yii::$app->user->can('createActivity')
+            && !\Yii::$app->user->can('admin')) {
             throw new HttpException(401, 'User does not have permission');
         }
             $activity->id_user = \Yii::$app->user->identity->getId();
