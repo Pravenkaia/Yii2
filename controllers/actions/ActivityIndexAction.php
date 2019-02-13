@@ -12,6 +12,7 @@ namespace app\controllers\actions;
 //use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
 use yii\base\Action;
 use app\models\Activity;
+use yii\data\ActiveDataProvider;
 
 
 class ActivityIndexAction extends Action
@@ -23,19 +24,62 @@ class ActivityIndexAction extends Action
      */
     public function run()
     {
-        $activity = new Activity();
 
-        if (!\Yii::$app->user->isGuest)
-            $activity->id_user = \Yii::$app->user->identity->getId();
-
-
-        $this->settings = 'Здесь будет список событий';
-        if (isset($activity->id_user) && $activity->id_user > 0)
-            $activity = \Yii::$app->acts->getUsersActivities($activity->id_user);
-        else
-            $activity = \Yii::$app->acts->getAllActivities();
+        $this->settings = 'Список событий';
         \Yii::$app->view->params['settings'] = $this->settings;
 
-        return $this->controller->render('index', ['model' => $activity]);
+        if (\Yii::$app->user->isGuest) :
+            //$activity->id_user = \Yii::$app->user->identity->getId();
+            $error = 'Список событий просматривают только авторизованные пользователи';
+            \Yii::$app->session->setFlash('error', $error);
+            return $this->controller->render('error', ['error' => $error]);
+        else:
+
+
+
+            if (\Yii::$app->request->get('id_activity') > 0) {  //выбрано событие
+                $activity = Activity::findOne(\Yii::$app->request->get('id_activity'));
+
+                if ($activity->id_user == \Yii::$app->user->id
+                    || \Yii::$app->user->can('admin')) {
+                    return $this->controller->render('view', ['model' => $activity]);
+                } else {
+                    \Yii::$app->session->setFlash('error', 'Доступ запрещен!');
+                    return $this->controller->render('error', ['error' => 'Доступ запрещён']);
+                }
+            } else { //все события
+                if (\Yii::$app->user->can('admin'))
+                    $query = Activity::find(); //->orderBy('date_start')->all();
+                else
+                    $query = Activity::find()->where(['id_user' => \Yii::$app->user->identity->getId()]); //->orderBy('date_end')->all();
+
+
+                $activitiesProvider = new ActiveDataProvider([
+                    'query' => $query,
+                    'pagination' => [
+                        'pageSize' => 3,
+                    ],
+                    'sort' => [
+                        'defaultOrder' => [
+                            'date_start' => SORT_DESC,
+                        ]
+                    ],
+                ]);
+
+
+                $activity = $activitiesProvider->getModels();
+
+                return $this->controller->render('index', ['provider' => $activitiesProvider]);
+            }
+
+
+        endif;
+
+        //if (isset($activity->id_user) && $activity->id_user > 0)
+        //    $activity = \Yii::$app->acts->getUsersActivities($activity->id_user);
+        //else
+        //    $activity = \Yii::$app->acts->getAllActivities();
+
+        //return $this->controller->render('index', ['model' => $activity]);
     }
 }

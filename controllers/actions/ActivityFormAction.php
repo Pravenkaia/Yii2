@@ -29,26 +29,37 @@ class ActivityFormAction extends Action
      */
     public function run()
     {
-        $activity = new Activity();
         $view = 'form';
 
-        $activity->array_errors = '';
-        //определяем id_user
         if(\Yii::$app->user->isGuest) :
-           // $this->settings = 'Только для авторизованных пользователей!';
+            // $this->settings = 'Только для авторизованных пользователей!';
             throw new HttpException(401, 'The user is not authorized');
-           // \Yii::$app->session->setFlash('error', 'Только для авторизованных пользователей!');
+        // \Yii::$app->session->setFlash('error', 'Только для авторизованных пользователей!');
+
         else:
-        if(!\Yii::$app->user->can('createActivity')
-            && !\Yii::$app->user->can('admin')) {
-            throw new HttpException(401, 'User does not have permission');
-        }
-            $activity->id_user = \Yii::$app->user->identity->getId();
+            //$id = 0;
+            $id = \Yii::$app->request->get('id');
+
+            if ((int)$id > 0) {
+                $activity = Activity::findOne(['id_activity' => (int)$id]);
+                $activity->id_activity = $id;
+            }
+            else
+                $activity = new Activity();
 
 
-        if ($activity->validate()) { // успешная валидация данных
-            //var_dump($activity->id_user); exit;
-            $this->settings = 'Не пройдена валидация';
+
+
+            if(!\Yii::$app->user->can('createActivity')
+                && !\Yii::$app->user->can('admin')) {
+                throw new HttpException(401, 'User does not have permission');
+            }
+            //$activity->id_user = \Yii::$app->user->identity->getId();
+
+
+            if ($activity->validate()) { // успешная валидация данных
+                //var_dump($activity->id_user); exit;
+                $this->settings = 'Не пройдена валидация';
 
          // if ($activity->id_user > 0) : // пользователь имеет id
 

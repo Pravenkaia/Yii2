@@ -18,6 +18,7 @@ class ActivityView extends Action
     /**
      * @param $id
      * @return string
+     * @throws HttpException
      */
     public function run($id) {
 
@@ -26,8 +27,8 @@ class ActivityView extends Action
         }
 
         $model = \Yii::$app->acts->getActivity($id);
-        $t = !\Yii::$app->user->can('authorActivity',['activity' => $model]);
-var_dump($t);
+        //$t = !\Yii::$app->user->can('authorActivity',['activity' => $model]);
+//var_dump($t);
         if (!\Yii::$app->user->can('authorActivity',['activity' => $model])
             && !\Yii::$app->user->can('admin')) {
             throw new HttpException(401, 'Не автор события');

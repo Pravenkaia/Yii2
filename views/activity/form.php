@@ -6,9 +6,10 @@
  * Time: 15:25
  */
 /* @var $this \yii\web\View */
-/* @var $model \app\models\Activity */
-use yii\helpers\Url;
 
+/* @var $model \app\models\Activity */
+
+use yii\helpers\Url;
 
 
 ?>
@@ -23,10 +24,10 @@ use yii\helpers\Url;
     <h2 class="h2">
         Ввод и сохранение события
     </h2>
-    <?php
-    echo 'Пользователь id: ';
-        if(!Yii::$app->user->isGuest) echo (Yii::$app->user->identity->getId());
+    <h2><?php echo 'Пользователь id: ';
+    if (!Yii::$app->user->isGuest) echo(Yii::$app->user->identity->getId());
     ?>
+    </h2>
     <h2 class="h2">
         <?php if (isset(\Yii::$app->view->params['settings'])) echo \Yii::$app->view->params['settings']; ?>
     </h2>
@@ -59,10 +60,14 @@ else :  //
     ?>
 
 
+    <?php if (isset($model->id_activity)) { // редактирование ?>
+    <?= $form->field($model, 'id_activity')->hiddenInput(); ?>
+<?php }; ?>
+
+
     <?= $form->field($model, 'title'); ?>
 
-
-    <?=$form->field($model, 'date_start')->widget("kartik\date\DatePicker", [
+    <?= $form->field($model, 'date_start')->widget("kartik\date\DatePicker", [
     'name' => 'date_start',
     'options' => ['placeholder' => 'Выберите дату начала события'],
     'convertFormat' => true,
@@ -72,7 +77,7 @@ else :  //
     ]
 ])->label($model->getAttributeLabel('Дата начала события. date_start')) ?>
 
-    <?=$form->field($model, 'date_end')->widget("kartik\date\DatePicker", [
+    <?= $form->field($model, 'date_end')->widget("kartik\date\DatePicker", [
     'name' => 'date_end',
     'options' => ['placeholder' => 'Выберите дату окончания события'],
     'convertFormat' => true,
@@ -88,7 +93,7 @@ else :  //
     <?= $form->field($model, 'is_repeatable')->checkbox(); ?>
     <?= $form->field($model, 'is_blocking')->checkbox(); ?>
     <?= $form->field($model, 'email'); ?>
-     $form->field($model, 'document_file')->fileInput(['accept' => 'application/pdf']);
+    $form->field($model, 'document_file')->fileInput(['accept' => 'application/pdf']);
     $form->field($model, 'picture')->fileInput(['multiple' => true, 'accept' => 'image/*']);
 
     <div class="form-group">

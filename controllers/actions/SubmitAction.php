@@ -11,9 +11,11 @@ namespace app\controllers\actions;
 use app\components\ActivityComponent;
 use Yii;
 use yii\base\Action;
+use yii\data\ActiveDataProvider;
 use yii\web\UploadedFile;
 use app\models\Activity;
 use yii\helpers\VarDumper;
+use yii\helpers\Url;
 
 
 class SubmitAction extends Action
@@ -29,31 +31,43 @@ class SubmitAction extends Action
 
         $view = 'submit';
         $setFlash = '';
-        $activity = new Activity();
+        //$activity = new Activity();
 
         if (\Yii::$app->user->isGuest):
             $view = 'form';
             \Yii::$app->session->setFlash('error', 'Только для авторизованных пользователей');
         else:
 
-            $activity->id_user = \Yii::$app->user->identity->getId();
-
-            /**
-             * компонент
-             * @var ActivityComponent $acts
-             */
-            $acts = \Yii::$app->acts;
-
 
             if (\Yii::$app->request->isPost) {
+
+                $post = Yii::$app->request->post();
+                //echo '<br><pre>'; VarDumper::dump($post); echo '</pre>'; exit;
+
+                //если редактируем событие, получаем его id_activity
+                if (isset($post['Activity']['id_activity']) && (int)$post['Activity']['id_activity'] > 0) {
+                   //загружаем модель по id_activity
+                    $activity = Activity::find()->andWhere(['id_activity' => (int)$post['Activity']['id_activity']])->one();
+                    //echo '<br><pre>'; VarDumper::dump($activity->id_user);echo '</pre>';exit;
+                }
+                else { //Новое событие
+                    $activity = new Activity();
+                    $activity->id_user = \Yii::$app->user->identity->getId();
+                }
+
+
                 $activity->load(\Yii::$app->request->post());
 
 
-
+                /**
+                 * компонент
+                 * @var ActivityComponent $acts
+                 */
+                $acts = \Yii::$app->acts;
                 $acts->formatDates($activity);  //форматирует даты начала и конца события и названия файла для бд
 
                 //echo '$activity->title: ' . $activity->title;
-                //echo '<br><pre>'; VarDumper::dump($activity); echo '</pre>'; exit;
+               //echo '<br><pre>'; VarDumper::dump($activity); echo '</pre>'; exit;
 
 
                 //$activity->document_file = UploadedFile::getInstance($activity, 'document_file');
@@ -68,11 +82,13 @@ class SubmitAction extends Action
 
 
                 if ($activity->save()) {
-                    $setFlash .= 'Успешное сохранение<br>';
-                    if ($setFlash != '')
-                      //  \Yii::$app->session->setFlash('success', $setFlash . $activity->id_user);
+                    //$setFlash .= 'Успешное сохранение<br>';
+                    //if ($setFlash != '')
+                     //  \Yii::$app->session->setFlash('success', $setFlash . $activity->id_user);
 
-                    return $this->controller->redirect('view', ['model' => $activity, 'id' => $activity->id_activity]);
+                    //echo '<br><pre>'; VarDumper::dump($model); echo '</pre>'; exit;
+
+                    return $this->controller->redirect(Url::to(['view', 'id' => $activity->id_activity]));// , ['id' => $model->id_activity]); //, 'id' => $model->id_activity
                 }
 
                 // else {
@@ -88,7 +104,7 @@ class SubmitAction extends Action
         if ($setFlash != '')
             \Yii::$app->session->setFlash('success', $setFlash . $activity->id_user);
         // \Yii::$app->view->params['settings'] = $this->settings;
-        return $this->controller->render($view, ['model' => $activity]);
+        return $this->controller->redirect('activity/create');
 
     }
 }

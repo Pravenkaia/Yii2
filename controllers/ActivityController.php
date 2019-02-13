@@ -30,6 +30,7 @@ class ActivityController extends BaseController
            'create' => ActivityFormAction::class,
            'submit' => SubmitAction::class,
            'view' => ActivityView::class,
+           'update' => ActivityFormAction::class,
        ];
    }
 }
