@@ -36,7 +36,9 @@ echo DetailView::widget([
             'captionOptions' => ['tooltip' => 'Tooltip'],
         ],
         'date_start:datetime',
-        'date_end:datetime'
+        'date_end:datetime',
+        'date_created:datetime',
+        'date_changed:datetime',
     ],
 ]);
 ?>
