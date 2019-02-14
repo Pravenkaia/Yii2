@@ -72,11 +72,12 @@ class RbacComponent extends Component
 // при регистрации  нового пользователя назначение user происходит по default
 // т.к. создавли новое правило с новым рзрешением, то снова переназначаем.
 // //Раз все удаляется нафиг
-        $authManager->assign($admin,25);
+        $authManager->assign($admin,2);
         $authManager->assign($user, 1);
-        $authManager->assign($user, 29);
-        $authManager->assign($user, 33);
-        $authManager->assign($user, 42);
+        $authManager->assign($user, 3);
+        $authManager->assign($user, 4);
+        $authManager->assign($user, 5);
+        $authManager->assign($user, 6);
 
 
     }
