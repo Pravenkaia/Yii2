@@ -35,9 +35,7 @@ class UsersAuth extends Users
             if (!$this->save()) {
                 //throw new HttpException(400, 'saving Error');
             } else {
-                $userRole = \Yii::$app->authManager->getRole('user');
-               // \Yii::$app->authManager->assign($userRole, Yii::$app->user->getId());
-                \Yii::$app->authManager->assign($userRole, $this->id);
+                \Yii::$app->rbac->assignUserRole($this->id);
                 return $this->id;
             }
         }
