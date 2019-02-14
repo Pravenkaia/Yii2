@@ -67,7 +67,7 @@ class UsersComponent extends Component
             if (!$user) {
                 return false;
             } else {
-                Yii::$app->user->login($user, 3600);
+                \Yii::$app->user->login($user, 3600);
                 return $user;
             }
         }
