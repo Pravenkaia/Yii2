@@ -7,8 +7,8 @@ $params = require __DIR__ . '/params.php';
  * $db из под root и без пароля
  **/
 //$db_config_file = '/db_local.php';
-$db_config_file = file_exists( __DIR__ .  '/db_local.php') ? '/db_local.php' : '/db.php';
-$db = require __DIR__  .  $db_config_file;
+$db_config_file = file_exists(__DIR__ . '/db_local.php') ? '/db_local.php' : '/db.php';
+$db = require __DIR__ . $db_config_file;
 //$db = require __DIR__ . '/db.php'; // исходнаяя настройка
 
 $config = [
@@ -19,17 +19,21 @@ $config = [
     //'defaultRoute'=>'activity',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
         '@activity' => '@app/modules/activity', // для модуля activity
     ],
 
 
     //модули
-    // 'modules' => [
-    //        'activity' => [
-    //            'class' => 'app\modules\activity\Module',
-    //        ],
-    //  ],
+    'modules' => [
+        //        'activity' => [
+        //            'class' => 'app\modules\activity\Module',
+        //        ],
+        //  ],
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+        ],
+    ],
 
     // компоненты
     'components' => [

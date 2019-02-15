@@ -28,7 +28,7 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
-    // было ['label' => 'Login', 'url' => ['/site/login']]
+
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
@@ -39,17 +39,26 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'События', 'url' => ['/activity/']],
-            ['label' => 'Создать событие', 'url' => ['/activity/create']],
-            ['label' => 'Регистрация', 'url' => ['/auth/sign-up']],
-            ['label' => 'Авторизация', 'url' => ['/auth/sign-in']],
-          //  ['label' => 'About', 'url' => ['/site/about']],
-          //  ['label' => 'Contact', 'url' => ['/site/contact']],
-          //  ['label' => 'Hello', 'url' => ['/site/hello']],
+            ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
+            ['label' => Yii::t('app', 'Activities'), 'url' => ['/activity/']],
+            ['label' => Yii::t('app', 'Create Activity'), 'url' => ['/activity/create']],
+            ['label' => Yii::t('app', 'Registration'), 'url' => ['/auth/sign-up']],
+            ['label' => Yii::t('app', 'Authorization'), 'url' => ['/auth/sign-in']],
+          //  ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
+          //  ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
+          //  ['label' => Yii::t('app', 'Hello'), 'url' => ['/site/hello']],
+
+            \Yii::$app->user->can('admin') ? (
+            ['label' => Yii::t('app', 'Admin'),
+                'url' => ['admin'],
+                'items' => [
+                    ['label' => Yii::t('app', 'Activities'), 'url' => ['/admin/activity']],
+                    ['label' => Yii::t('app', 'Users'), 'url' => ['/admin/users']]
+            ]]) : (''),
 
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/auth/sign-in']]
+                // было ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')

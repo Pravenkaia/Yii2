@@ -72,7 +72,7 @@ class ActivityBase extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Users::className(), ['id' => 'id_user']);
+        return $this->hasOne(Users::class, ['id' => 'id_user']);
     }
 
     /**
