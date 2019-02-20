@@ -7,6 +7,8 @@
  */
 
 namespace app\models;
+use Yii;
+use yii\base\Exception;
 use yii\helpers\VarDumper;
 
 /**
@@ -17,7 +19,7 @@ class UsersAuth extends Users
 {
      /**
      * @return bool
-     * @throws \yii\base\Exception
+     * @throws Exception
      */
     public function registration()
     {
@@ -29,15 +31,15 @@ class UsersAuth extends Users
                 $this->addError('email', 'Такой email  уже зарегистрирован');
                 return false;
             }
-            $this->password_hash = \Yii::$app->security->generatePasswordHash($this->password);
-            $this->token = \Yii::$app->security->generateRandomString();
+            $this->password_hash = Yii::$app->security->generatePasswordHash($this->password);
+            $this->token = Yii::$app->security->generateRandomString();
 
             if (!$this->save()) {
                 //throw new HttpException(400, 'saving Error');
             } else {
-                $userRole = \Yii::$app->authManager->getRole('user');
-               // \Yii::$app->authManager->assign($userRole, Yii::$app->user->getId());
-                \Yii::$app->authManager->assign($userRole, $this->id);
+                $userRole = Yii::$app->authManager->getRole('user');
+               // Yii::$app->authManager->assign($userRole, Yii::$app->user->getId());
+                Yii::$app->authManager->assign($userRole, $this->id);
                 return $this->id;
             }
         }
@@ -54,7 +56,7 @@ class UsersAuth extends Users
             if (!$user) {
                 return false;
             } else {
-                \Yii::$app->user->login($user, 3600);
+                Yii::$app->user->login($user, 3600);
                 return $user;
             }
     }
@@ -70,13 +72,15 @@ class UsersAuth extends Users
             $this->addError('email', 'Пользователь с ' . $this->email . ' не найден');
             return false;
         } else {
-            if (!\Yii::$app->security->validatePassword($this->password, $user->password_hash)) {
+            if (!Yii::$app->security->validatePassword($this->password, $user->password_hash)) {
                 $this->addError('password', 'Ошибочный пароль');
                 return false;
             }
             return $user;
         }
     }
+
+
 
 
     /**

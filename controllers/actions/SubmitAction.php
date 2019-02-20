@@ -11,7 +11,6 @@ namespace app\controllers\actions;
 use app\components\ActivityComponent;
 use Yii;
 use yii\base\Action;
-use yii\data\ActiveDataProvider;
 use yii\web\UploadedFile;
 use app\models\Activity;
 use yii\helpers\VarDumper;
@@ -33,13 +32,13 @@ class SubmitAction extends Action
         $setFlash = '';
         //$activity = new Activity();
 
-        if (\Yii::$app->user->isGuest):
+        if (Yii::$app->user->isGuest):
             $view = 'form';
-            \Yii::$app->session->setFlash('error', 'Только для авторизованных пользователей');
+            Yii::$app->session->setFlash('error', 'Только для авторизованных пользователей');
         else:
 
 
-            if (\Yii::$app->request->isPost) {
+            if (Yii::$app->request->isPost) {
 
                 $post = Yii::$app->request->post();
                 //echo '<br><pre>'; VarDumper::dump($post); echo '</pre>'; exit;
@@ -52,18 +51,18 @@ class SubmitAction extends Action
                 }
                 else { //Новое событие
                     $activity = new Activity();
-                    $activity->id_user = \Yii::$app->user->identity->getId();
+                    $activity->id_user = Yii::$app->user->identity->getId();
                 }
 
 
-                $activity->load(\Yii::$app->request->post());
+                $activity->load(Yii::$app->request->post());
 
 
                 /**
                  * компонент
                  * @var ActivityComponent $acts
                  */
-                $acts = \Yii::$app->acts;
+                $acts = Yii::$app->acts;
                 $acts->formatDates($activity);  //форматирует даты начала и конца события и названия файла для бд
 
                 //echo '$activity->title: ' . $activity->title;
@@ -102,7 +101,7 @@ class SubmitAction extends Action
             // }
         endif;
         if ($setFlash != '')
-            \Yii::$app->session->setFlash('success', $setFlash . $activity->id_user);
+            Yii::$app->session->setFlash('success', $setFlash . $activity->id_user);
         // \Yii::$app->view->params['settings'] = $this->settings;
         return $this->controller->redirect('activity/create');
 

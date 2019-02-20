@@ -29,17 +29,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_activity',
-            'id_user',
-            'title',
-            'date_start',
-            'date_end',
-            //'is_repeatable',
-            //'is_blocking',
-            //'date_created',
-            //'date_changed',
-            //'description:ntext',
-            //'email:email',
+            ['attribute' => 'id_activity', 'label' => 'id_activity'],
+            ['attribute' => 'id_user', 'label' => 'id_user'],
+            ['attribute' => 'userName', 'label' => Yii::t('app', 'User name'), 'value' => 'users.username'],
+            ['attribute' => 'authName', 'label' => Yii::t('app', 'Role'), 'value' => 'auth.item_name'],
+            ['attribute' => 'title', 'label' => Yii::t('app', 'Title')],
+            ['attribute' => 'date_start', 'label' => Yii::t('app', 'Start date')],
+            ['attribute' => 'date_end', 'label' => Yii::t('app', 'End date')],
+
+
+            ////'is_repeatable',
+            ////'is_blocking',
+            ////'date_created',
+            ////'date_changed',
+            ////'description:ntext',
+            ////'email:email',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

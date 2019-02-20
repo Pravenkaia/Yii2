@@ -6,14 +6,14 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\UsersBase */
 
-$this->title = $model->id;
+$this->title = $model->username . ', id=' .$model->id;
 $this->params['breadcrumbs'][] = [
     'label' => Yii::t('app', 'Admin'),
     'url' => ['/admin'] // сама ссылка
 ];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users Bases'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+yii\web\YiiAsset::register($this);
 ?>
 <div class="users-base-view">
 
@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+            'userRole',
             'username',
             'email:email',
             'password_hash',

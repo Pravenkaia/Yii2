@@ -3,14 +3,14 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\models\ActivityBase;
+use app\models\Activity; //Base
 use app\modules\admin\models\ActivitySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ActivityController implements the CRUD actions for ActivityBase model.
+ * ActivityController implements the CRUD actions for Activity model.
  */
 class ActivityController extends Controller
 {
@@ -30,7 +30,7 @@ class ActivityController extends Controller
     }
 
     /**
-     * Lists all ActivityBase models.
+     * Lists all Activity models.
      * @return mixed
      */
     public function actionIndex()
@@ -45,7 +45,7 @@ class ActivityController extends Controller
     }
 
     /**
-     * Displays a single ActivityBase model.
+     * Displays a single Activity model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,13 +58,13 @@ class ActivityController extends Controller
     }
 
     /**
-     * Creates a new ActivityBase model.
+     * Creates a new Activity model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ActivityBase();
+        $model = new Activity();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_activity]);
@@ -76,7 +76,7 @@ class ActivityController extends Controller
     }
 
     /**
-     * Updates an existing ActivityBase model.
+     * Updates an existing Activity model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -96,7 +96,7 @@ class ActivityController extends Controller
     }
 
     /**
-     * Deletes an existing ActivityBase model.
+     * Deletes an existing Activity model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -117,15 +117,15 @@ class ActivityController extends Controller
     }
 
     /**
-     * Finds the ActivityBase model based on its primary key value.
+     * Finds the Activity model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ActivityBase the loaded model
+     * @return Activity the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ActivityBase::findOne($id)) !== null) {
+        if (($model = Activity::findOne($id)) !== null) {
             return $model;
         }
 

@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use Yii;
+use yii\base\Exception;
 use yii\web\IdentityInterface;
 
 /**
@@ -14,7 +16,6 @@ use yii\web\IdentityInterface;
  * @property string $token
  * @property string $date_created
  *
- * @property Activity[] $activities
  */
 class Users extends UsersBase implements IdentityInterface
 {
@@ -22,6 +23,19 @@ class Users extends UsersBase implements IdentityInterface
      * @var string $password
      */
     public $password;
+    /**
+     * @var string $userRole
+     */
+    public $userRole;
+    /**
+     * @var string $newRole
+     */
+    public $newRole;
+    /**
+     * @var string $itemName
+     */
+    public $itemName;
+
 
     /**
      * {@inheritdoc}
@@ -31,38 +45,38 @@ class Users extends UsersBase implements IdentityInterface
         return array_merge([
             [['password'], 'required'],
             ['password', 'string'], //, 'passwordValidator'
+            ['email', 'email'],
+            ['userRole', 'safe']
         ], parent::rules());
     }
-
-
 
 
     /**
      * @param $pass
      * @return string
-     * @throws \yii\base\Exception
+     * @throws Exception
      */
     public function getPassHash($pass)
     {
-        return \Yii::$app->security->generatePasswordHash($pass);
+        return Yii::$app->security->generatePasswordHash($pass);
     }
 
     /**
      * @return string
-     * @throws \yii\base\Exception
+     * @throws Exception
      */
     public function getToken()
     {
-        return \Yii::$app->security->generateRandomString();
+        return Yii::$app->security->generateRandomString();
     }
 
     /**
      * @param int|string $id
-     * @return void|IdentityInterface
-     * * Finds an identity by the given token.
      * @param mixed $token the token to be looked for
      * @param mixed $type the type of the token. The value of this parameter depends on the implementation.
      * For example, [[\yii\filters\auth\HttpBearerAuth]] will set this parameter to be `yii\filters\auth\HttpBearerAuth`.
+     * @return void|IdentityInterface
+     * * Finds an identity by the given token.
      * @return IdentityInterface the identity object that matches the given token.
      * Null should be returned if such an identity cannot be found
      * or the identity is not in an active state (disabled, deleted, etc.)
@@ -94,8 +108,7 @@ class Users extends UsersBase implements IdentityInterface
      * Returns an ID that can uniquely identify a user identity.
      * @return string|int an ID that uniquely identifies a user identity.
      */
-    public
-    function getId()
+    public function getId()
     {
         return $this->id;
     }
@@ -112,8 +125,7 @@ class Users extends UsersBase implements IdentityInterface
      * @return string a key that is used to check the validity of a given identity ID.
      * @see validateAuthKey()
      */
-    public
-    function getAuthKey()
+    public function getAuthKey()
     {
         return $this->token;
     }
@@ -126,8 +138,7 @@ class Users extends UsersBase implements IdentityInterface
      * @return bool whether the given auth key is valid.
      * @see getAuthKey()
      */
-    public
-    function validateAuthKey($authKey)
+    public function validateAuthKey($authKey)
     {
         return $this->authKey == $authKey;
     }

@@ -32,6 +32,15 @@ $config = [
         //  ],
         'admin' => [
             'class' => 'app\modules\admin\Module',
+            'as access' => [ // if you need to set access
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['admin'] // all auth users
+                    ],
+                ]
+            ],
         ],
     ],
 
@@ -64,7 +73,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\Users',
             'enableAutoLogin' => true,
-            //'loginUrl' =>  'auth/sign-in',//['user/login']
+            'loginUrl' =>  'auth/sign-in',//['user/login']
         ],
         'users' => 'app\components\UsersComponent',
         //'user' => [  // настройки из коробкм

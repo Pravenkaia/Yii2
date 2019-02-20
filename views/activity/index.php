@@ -46,15 +46,15 @@ if (isset($provider))
                 }
             ],
             [
-                'label' => 'user',
+                'label' => Yii::t('app', 'User'),
                 'attribute' => 'id_user',
                 'value' => function ($data) {
                     return $data->id_user;
                 }
             ],
             [
-                'label' => 'Название',
-               //'attribute' => 'title',
+                'label' => Yii::t('app', 'Title'),
+               'attribute' => 'title',
                //'value' => function ($data) {
                //    return $data->title;
                //}
@@ -67,14 +67,14 @@ if (isset($provider))
                 'format' => 'raw'
             ],
             [
-                'label' => 'Дата начала',
+                'label' => Yii::t('app', 'Start date'),
                 'attribute' => 'date_start',
                 'value' => function ($data) {
                     return date("d.m.Y", strtotime($data->date_start));
                 },
             ],
             [
-                'label' => 'Дата завершения',
+                'label' => Yii::t('app', 'End date'),
                 'attribute' => 'date_end',
                 'value' => function ($data) {
                     return date("d.m.Y", strtotime($data->date_end));

@@ -62,6 +62,7 @@ class Activity extends ActivityBase
      */
     public $document_file;
 
+
     public function rules()
     {
         return array_merge([
@@ -102,20 +103,29 @@ class Activity extends ActivityBase
     public function attributeLabels()
     {
         return [
-            'title' => 'Название события',
-            'dateStart' => 'Дата начала',
-            'dateEnd' => 'Дата завершения',
-            'id_author' => 'ID автора',
-            'description' => 'Описание события',
-            'is_repeatable' => 'Повторяется?',
-            'is_blocking' => 'Несовместимо с другими событиями?',
-            'email' => 'E-mail (подписка на рассылку)',
-            'picture' => 'Добавьте изображения',
-            'document' => 'Добавьте файл (только PDF!)',
+            'picture'  => \Yii::t('app', 'Add images'),
+            'document' => \Yii::t('app', 'Add a file (pdf only)'),
+            'userName' => \Yii::t('app', 'User name'),
+            //'username' => \Yii::t('app', 'User name'),
         ];
     }
 
 
+    // Геттер для имени пользователя
+
+    /**
+     * @return string
+     */
+    public function getUserName() {
+        return $this->users->username;
+    }
+    /**
+     * @return string
+     */
+    // Геттер название права доступа
+    public function getAuthName() {
+        return $this->getAuth()->item_name;
+    }
 
 
     //public function upload()

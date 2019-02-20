@@ -14,7 +14,6 @@ use Yii;
  * @property string $token
  * @property string $date_created
  *
- * @property Activity[] $activities
  */
 class UsersBase extends \yii\db\ActiveRecord
 {
@@ -61,6 +60,19 @@ class UsersBase extends \yii\db\ActiveRecord
      */
     public function getActivities()
     {
-        return $this->hasMany(Activity::className(), ['id_user' => 'id']);
+        return $this->hasMany(Activity::class, ['id_user' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAuth()
+    {
+        return $this->hasOne(AuthAssignment::class, ['id_user' => 'id']);
+    }
+
+    public function getRole()
+    {
+        return $this->hasOne(AuthAssignment::class, ['user_id' => 'id']);
     }
 }

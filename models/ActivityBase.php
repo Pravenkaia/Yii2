@@ -17,16 +17,9 @@ use Yii;
  * @property string $date_changed
  * @property string $description
  * @property string $email
- *
- * @property Users $user
  */
 class ActivityBase extends \yii\db\ActiveRecord
 {
-
-
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'activity';
@@ -70,9 +63,17 @@ class ActivityBase extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getUsers()
     {
         return $this->hasOne(Users::class, ['id' => 'id_user']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAuth()
+    {
+        return $this->hasOne(AuthAssignment::class, ['user_id' => 'id_user']);
     }
 
     /**

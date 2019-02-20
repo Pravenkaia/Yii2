@@ -30,7 +30,7 @@ class ActivityIndexAction extends Action
 
         if (\Yii::$app->user->isGuest) :
             //$activity->id_user = \Yii::$app->user->identity->getId();
-            $error = 'Список событий просматривают только авторизованные пользователи';
+            $error = 'Only authorized users can view the activities list';
             \Yii::$app->session->setFlash('error', $error);
             return $this->controller->render('error', ['error' => $error]);
         else:

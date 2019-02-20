@@ -2,15 +2,23 @@
 
 namespace app\modules\admin\models;
 
+use app\models\AuthAssignment;
+use app\models\AuthItems;
+use app\models\Users;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\UsersBase;
 
 /**
- * UsersSearch represents the model behind the search form of `app\models\UsersBase`.
+ * UsersSearch represents the model behind the search form of `app\models\Users`.
  */
-class UsersSearch extends UsersBase
+class UsersSearch extends Users
 {
+    /**
+     * @var string $authName
+     */
+    public $authName;
+
+
     /**
      * {@inheritdoc}
      */
@@ -18,7 +26,11 @@ class UsersSearch extends UsersBase
     {
         return [
             [['id'], 'integer'],
-            [['username', 'email', 'password_hash', 'token', 'date_created'], 'safe'],
+            [['username', 'email','userRole', 'date_created'], 'safe'], //password_hash', 'token',
+            ['email','email'],
+            ['newRole','safe'],
+            //['userRole','safe']
+            ['userRole', 'in', 'range' => function() {$items = new AuthItems(); return $items->getAuthNames();}]//],[1, 2, 3]
         ];
     }
 
@@ -40,7 +52,14 @@ class UsersSearch extends UsersBase
      */
     public function search($params)
     {
-        $query = UsersBase::find();
+        $query = Users::find();
+        /**
+         * Жадная загрузка данных модели AuthAssignment
+         * для работы сортировки.
+         */
+        $query->joinWith([
+            'role' // роль
+        ]);
 
         // add conditions that should always apply here
 
@@ -48,10 +67,23 @@ class UsersSearch extends UsersBase
             'query' => $query,
         ]);
 
-        $this->load($params);
+        $dataProvider->sort->attributes['authName'] = [
+            'asc' => [AuthAssignment::tableName() . '.item_name' => SORT_ASC],
+            'desc' => [AuthAssignment::tableName() . '.item_name' => SORT_DESC],
+            'label' => \Yii::t('app', 'Role')
+        ];
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
+        //$this->load($params);
+//
+        //if (!$this->validate()) {
+        //    // uncomment the following line if you do not want to return any records when validation fails
+        //    // $query->where('0=1');
+        //    return $dataProvider;
+        //}
+
+        if (!($this->load($params) && $this->validate())) {
+
+             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
@@ -64,8 +96,10 @@ class UsersSearch extends UsersBase
 
         $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'password_hash', $this->password_hash])
-            ->andFilterWhere(['like', 'token', $this->token]);
+            ->andFilterWhere(['like', AuthAssignment::tableName() . '.item_name', $this->authName]);
+            //->andFilterWhere(['like', 'password_hash', $this->password_hash])
+            //->andFilterWhere(['like', 'token', $this->token])
+
 
         return $dataProvider;
     }
