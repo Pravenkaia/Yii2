@@ -11,6 +11,7 @@ namespace app\models;
 
 
 
+use app\behaviors\InsertLogBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
@@ -22,6 +23,11 @@ use yii\db\Expression;
  */
 class Activity extends ActivityBase
 {
+    // лучше наследоваться ActiveRecordBase от класса ActiveRecord
+    // и в наследнике создавать константу события MY_LOG_EVENT
+    // от наследника нужно наследовать и ActivityBase тоже, конечно
+    public const MY_LOG_EVENT = 'my_log_event';
+
     /**
      * дата начала события в формате 'Y-m-d'
      * @var string $date_activity
@@ -89,6 +95,7 @@ class Activity extends ActivityBase
                 ],
                 'value' => new Expression('NOW()')
             ],
+            InsertLogBehavior::class,
         ];
     }
 

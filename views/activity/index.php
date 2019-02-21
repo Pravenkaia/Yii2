@@ -10,15 +10,17 @@
 
 
 //use yii\helpers\Url;
-use \yii\helpers\VarDumper;
+
+use yii\helpers\Html;
+use yii\helpers\VarDumper;
 use yii\grid\GridView;
 
-
+Yii::$app->writeLog();
 ?>
 
 <div class="row">
     <h2 class="h2">
-        <?= \Yii::$app->view->params['settings']; ?>
+        <?= Yii::$app->view->params['settings']; ?>
         <?php
         if (!Yii::$app->user->isGuest)
             echo 'Пользователь id: ' . (Yii::$app->user->identity->getId());
@@ -60,8 +62,8 @@ if (isset($provider))
                //}
                 //работает
                 'value' => function ($model) {
-                    return \yii\helpers\Html::a(
-                            \yii\helpers\Html::encode($model->title),
+                    return Html::a(
+                            Html::encode($model->title),
                             ['activity/view', 'id' => $model->id_activity]);
                 },
                 'format' => 'raw'

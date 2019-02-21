@@ -9,6 +9,7 @@
 namespace app\controllers\actions;
 
 
+use app\behaviors\DateStartBehaviors;
 use yii\base\Action;
 use yii\web\HttpException;
 
@@ -33,6 +34,14 @@ class ActivityView extends Action
             && !\Yii::$app->user->can('admin')) {
             throw new HttpException(401, 'Не автор события');
         }
+
+        $model->attachBehavior('dates', ['class' => DateStartBehaviors::class,
+            'date_to_format' => 'date_start']);
+
+        //запускаем своё событие
+        $model->trigger($model::MY_LOG_EVENT);
+
+
        // echo '<pre>'; var_dump($model); echo '<pre>'; exit;
         return $this->controller->render('view', ['model'=> $model]);
     }

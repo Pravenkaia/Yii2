@@ -10,16 +10,17 @@
  */
 
 use yii\widgets\DetailView;
+
 ?>
-<?php if($model): ?>
-<div class="row">
-    <div class="col-md-12">
-        <h2><?=$model->title;?></h2>
-        <div><span>Дата старта: </span><?=$model->date_start;?></div>
-        <div><span>Дата конца: </span><?=$model->date_end;?></div>
-        <div><span>Описание: </span><br><?=$model->description;?></div>
+<?php if ($model): ?>
+    <div class="row">
+        <div class="col-md-12">
+            <h2><?= $model->title; ?></h2>
+            <div><span>Дата старта: </span><?= $model->date_start; ?></div>
+            <div><span>Дата конца: </span><?= $model->date_end; ?></div>
+            <div><span>Описание: </span><br><?= $model->description; ?></div>
+        </div>
     </div>
-</div>
 <?php endif; ?>
 
 
@@ -35,10 +36,15 @@ echo DetailView::widget([
             'contentOptions' => ['class' => 'bg-red'],
             'captionOptions' => ['tooltip' => 'Tooltip'],
         ],
+        [
+            'label' => 'Дата старта (поведение аттачено в контроллере)',
+            'value' => $model->getDateFormatted(),
+        ],
         'date_start:datetime',
         'date_end:datetime',
         'date_created:datetime',
         'date_changed:datetime',
+        'email',
     ],
 ]);
 ?>
