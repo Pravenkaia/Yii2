@@ -1,20 +1,22 @@
 <?php
 
 $params = require __DIR__ . '/params.php';
-$db_config_file = file_exists( __DIR__ .  '/db_local.php') ? '/db_local.php' : '/db.php';
-$db = require __DIR__  .  $db_config_file;
+$db_config_file = file_exists(__DIR__ . '/db_local.php') ? '/db_local.php' : '/db.php';
+$db = require __DIR__ . $db_config_file;
 
 $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log','admin'], //'admin' -- модуль admin. в Файле Module.php  модуля admin переопределение пространства имен для консоли
+    'bootstrap' => ['log', 'admin'], //'admin' -- модуль admin. в Файле Module.php  модуля admin переопределение пространства имен для консоли
     'controllerNamespace' => 'app\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
-    'admin' => [
-        'class' => 'app\modules\admin\Module',
+    'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+        ],
     ],
     'components' => [
         'cache' => [
