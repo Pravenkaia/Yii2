@@ -1,0 +1,1 @@
+30 18 * * * cd /data/mysite.local/app && /usr/bin/php yii notification/send-today-activity

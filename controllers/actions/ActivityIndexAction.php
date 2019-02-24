@@ -27,6 +27,7 @@ class ActivityIndexAction extends Action
     public function run()
     {
 
+        /** @var string $this */
         $this->settings = 'Список событий';
         Yii::$app->view->params['settings'] = $this->settings;
 
@@ -37,7 +38,7 @@ class ActivityIndexAction extends Action
             return $this->controller->render('error', ['error' => $error]);
         else:
 
-            //Yii::$app->attachBehavior('myLog',['class' => InsertLogBehavior::class]);
+            Yii::$app->attachBehavior('myLog',['class' => InsertLogBehavior::class]);
 
 
             if (Yii::$app->request->get('id_activity') > 0) {  //выбрано событие

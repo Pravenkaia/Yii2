@@ -7,17 +7,42 @@ $db = require __DIR__  .  $db_config_file;
 $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log','admin'], //'admin' -- модуль admin. в Файле Module.php  модуля admin переопределение пространства имен для консоли
     'controllerNamespace' => 'app\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'admin' => [
+        'class' => 'app\modules\admin\Module',
+    ],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'dao' => 'app\components\DaoComponent',
         'acts' => 'app\components\ActivityComponent',
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            // send all mails to a file by default. You have to set
+            // 'useFileTransport' to false and configure a transport
+            // for the mailer to send real emails.
+            'useFileTransport' => false, //true,
+            'viewPath' => '@app/mail',
+            'enableSwiftMailerLogging' => true,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',//Swift_SmtpTransport::class,
+                'host' => 'smtp.spaceweb.ru',
+                'username' => 'pravlen@adventureraces.ru',
+                'password' => 'BELuha04061969',
+                'port' => '2525', // 2525 465
+                //'host' =>'smtp.yandex.ru',
+                //'username' => 'geekbrains@onedeveloper.ru',
+                //'password' => 'gazWSX',
+                //'port' => '587', // стандартный порт шифрования
+                'encryption' => 'tls'//'tls'
+            ],
+        ],
         'auth' => 'app\components\AuthComponent',
         'authManager' => [
             'class' => 'yii\rbac\DbManager',

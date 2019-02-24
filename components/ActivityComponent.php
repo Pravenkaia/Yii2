@@ -10,13 +10,33 @@ namespace app\components;
 
 
 use app\models\Activity;
+use phpDocumentor\Reflection\Types\Null_;
 use yii\base\Component;
+use yii\db\Exception;
 use yii\helpers\FileHelper;
 use yii\web\HttpException;
 use yii\db\Query;
 
 class ActivityComponent extends Component
 {
+
+    /**
+     * @return Activity
+     */
+    public static function getModelActivity()
+    {
+        return new Activity();
+    }
+
+    /**
+     * @param $where
+     * @param $params
+     * @return Activity[]|null
+     */
+    public function getActivities($where, $params)
+    {
+        return $this->getModelActivity()::find()->andWhere($where, $params)->all();
+    }
 
     /**
      * устанавливает формат даты начала и конца событий по формату БД
@@ -72,7 +92,7 @@ class ActivityComponent extends Component
 
     /**
      * @return array
-     * @throws \yii\db\Exception
+     * @throws Exception
      */
     public function getAllActivities()
     {
@@ -88,6 +108,48 @@ class ActivityComponent extends Component
     }
 
     /**
+     * @return array
+     * @throws Exception
+     */
+    public function getAllActivitiesParams($where, $params)
+    {
+        $query = new Query();
+
+        return $query->select('*,*')
+            ->from('activity')
+            ->innerJoin('users', 'activity.id_user=users.id')
+            ->andWhere($where, $params)
+            ->orderBy(['id_user' => SORT_ASC,'date_start' => SORT_ASC])
+            ->createCommand()
+            ->queryAll();
+
+    }
+
+    /**
+     * @param $where
+     * @param $params
+     * @throws HttpException
+     */
+    public function getArrayActivitiesByUsers($where, $params)
+    {
+        $activities = getAllActivitiesParams($where, $params);
+        if (!$activities) {
+            throw new HttpException(400, 'Error query');
+        } else {
+            // группируем по пользователям
+            // здесь будет массив по пользователям
+            // нужно заполучить email юзера и массив событий по юзеру
+            // чтобы не делать спам. А в одном письме перечислить все события
+
+            // группируем по пользователям
+
+
+        }
+
+    }
+
+
+    /**
      * @param int $id
      * @return Activity|\app\models\ActivityBase|array|null
      */
@@ -99,7 +161,8 @@ class ActivityComponent extends Component
     /**
      * @param int $id
      * @return array|bool
-     * @throws \yii\db\Exception
+     * @throws yii\db\Exception
+     * @throws Exception
      */
     public function getUsersActivities($id = 0)
     {

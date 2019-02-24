@@ -89,7 +89,9 @@ if (isset($provider))
 ?>
 
 
-
+<div>
+    <img src="http://adventureraces.ru/shablon-images/ARlogo.gif">
+</div>
 
 
 
