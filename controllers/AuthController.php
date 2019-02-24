@@ -52,7 +52,7 @@ class AuthController extends BaseController
             }
         }
 
-        return $this->render('sign-up', ['model' => $model]);
+        return $this->render('signup', ['model' => $model]);
     }
 
 

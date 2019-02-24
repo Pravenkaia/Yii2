@@ -9,22 +9,26 @@
 namespace app\components;
 
 
+use Exception;
+use Yii;
 use yii\base\Component;
 use app\rbac\AuthorActivityRule;
 
 class RbacComponent extends Component
 {
+    const ROLE_USER='user';
+
     /**
      *  это деалется в консоли, пока не проходили
      * @return \yii\rbac\ManagerInterface
      */
     public function getAuthManager() {
-        return \Yii::$app->authManager;
+        return Yii::$app->authManager;
     }
 
     /**
      * это деалется в консоли, пока не проходили
-     * @throws \Exception
+     * @throws Exception
      */
     public function generateRules() {
 
@@ -80,5 +84,28 @@ class RbacComponent extends Component
         $authManager->assign($user, 6);
 
 
+    }
+
+    /**
+     * Присвоение роли пользователю
+     * @param $role_name
+     * @param $user_id
+     * @return bool
+     * @throws Exception
+     */
+    public function assignRole($role_name,$user_id){
+        $userRole = Yii::$app->authManager->getRole($role_name);
+        // \Yii::$app->authManager->assign($userRole, Yii::$app->user->getId());
+        if(!$userRole){
+            throw new Exception('Role '.$role_name.' not exist');
+        }
+        if($this->getAuthManager()->assign($userRole, $user_id)){
+            return true;
+        }
+        return false;
+    }
+
+    public function assignUserRole($user_id){
+        return $this->assignRole(self::ROLE_USER,$user_id);
     }
 }
