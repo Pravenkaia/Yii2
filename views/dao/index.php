@@ -7,16 +7,19 @@
  */
 
 /* @var $this Yii\web\View */
-
-
-?>
+/* @var $users app\models\Users */
+/* @var $auth app\models\AuthItems */
+/* @var $activities app\models\Activity */
+/* @var $cnt app\models\Activity */
+use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper; ?>
 
 <div class="row">
 
     <h2>auth_item</h2>
     <pre>
 
-                <?= \yii\helpers\VarDumper::dump($auth); ?>
+                <?= VarDumper::dump($auth); ?>
      </pre>
 </div>
 
@@ -27,13 +30,13 @@
 
 <div class="container">
     <?php foreach ($users as $user): ?>
-        <div class="col-md-4"><?= \yii\helpers\ArrayHelper::getValue($user, 'id') . ': ' . \yii\helpers\ArrayHelper::getValue($user, 'email');; ?></div>
+        <div class="col-md-4"><?= ArrayHelper::getValue($user, 'id') . ': ' . ArrayHelper::getValue($user, 'email');; ?></div>
     <?php endforeach; ?>
 </div>
 <div class="row">
             <pre>
 
-                <?= \yii\helpers\VarDumper::dump($users); ?>
+                <?= VarDumper::dump($users); ?>
          </pre>
 </div>
 
@@ -44,17 +47,17 @@
 <div class="container">
     <?php foreach ($activities as $activity): ?>
         <div class="col-md-4">
-            Юзер ID: <?= \yii\helpers\ArrayHelper::getValue($activity, 'id'); ?>
-            <br>Юзер: <?= \yii\helpers\ArrayHelper::getValue($activity, 'username'); ?>, <?= \yii\helpers\ArrayHelper::getValue($activity, 'email'); ?>
-            <br>Событие: <?= \yii\helpers\ArrayHelper::getValue($activity, 'title'); ?>
-            <br><?= \yii\helpers\ArrayHelper::getValue($activity, 'date_start'); ?>
+            Юзер ID: <?= ArrayHelper::getValue($activity, 'id'); ?>
+            <br>Юзер: <?= ArrayHelper::getValue($activity, 'username'); ?>, <?= ArrayHelper::getValue($activity, 'email'); ?>
+            <br>Событие: <?= ArrayHelper::getValue($activity, 'title'); ?>
+            <br><?= ArrayHelper::getValue($activity, 'date_start'); ?>
             <br><br>
         </div>
     <?php endforeach; ?>
 </div>
 <div class="row"><pre>
 
-               <?=\yii\helpers\VarDumper::dump($activities); ?>
+               <?= VarDumper::dump($activities); ?>
             </pre>
 </div>
 

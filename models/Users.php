@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Exception;
+use yii\caching\TagDependency;
 use yii\web\IdentityInterface;
 
 /**
@@ -75,7 +76,7 @@ class Users extends UsersBase implements IdentityInterface
      * @param mixed $token the token to be looked for
      * @param mixed $type the type of the token. The value of this parameter depends on the implementation.
      * For example, [[\yii\filters\auth\HttpBearerAuth]] will set this parameter to be `yii\filters\auth\HttpBearerAuth`.
-     * @return void|IdentityInterface
+     * @return array|\yii\db\ActiveRecord
      * * Finds an identity by the given token.
      * @return IdentityInterface the identity object that matches the given token.
      * Null should be returned if such an identity cannot be found
@@ -84,9 +85,10 @@ class Users extends UsersBase implements IdentityInterface
     public
     static function findIdentity($id)
     {
-        //$query = self::find();
-        //$query->andWhere(['id=' => $id])->one();
-        return self::findOne($id);
+        $query = self::find();
+        return $query->andWhere(['id' => $id])
+            ->cache(true,new TagDependency(['tags' => 'my_tag']))->one();
+        //return self::findOne($id);
     }
 
     /**

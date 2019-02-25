@@ -48,7 +48,7 @@ AppAsset::register($this);
           //  ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
           //  ['label' => Yii::t('app', 'Hello'), 'url' => ['/site/hello']],
 
-            \Yii::$app->user->can('admin') ? (
+            Yii::$app->user->can('admin') ? (
             ['label' => Yii::t('app', 'Admin'),
                 'url' => ['admin'],
                 'items' => [

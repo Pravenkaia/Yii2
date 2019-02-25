@@ -10,7 +10,11 @@
 namespace app\components;
 
 
+use Throwable;
+use Yii;
 use yii\base\Component;
+use yii\caching\DbDependency;
+use yii\caching\TagDependency;
 use yii\db\Exception;
 use yii\db\Query;
 use yii\log\Logger;
@@ -27,6 +31,7 @@ class DaoComponent extends Component
         return $query->select('*,*')
             ->from('auth_item')
             ->createCommand()
+            ->cache(20)
             ->queryAll();
     }
 
@@ -40,12 +45,12 @@ class DaoComponent extends Component
             $this->getDb()->createCommand()->update('users',
                 [
                     'username' => 'Бегемот',
-                    'password_hash' => \Yii::$app->security->generatePasswordHash('123456')],
+                    'password_hash' => Yii::$app->security->generatePasswordHash('123456')],
                 ['id' => '25'])
                 ->execute();
 
             $this->getDb()->createCommand()->update('users',
-                ['password_hash' => \Yii::$app->security->generatePasswordHash('123456')],
+                ['password_hash' => Yii::$app->security->generatePasswordHash('123456')],
                 ['id' => '1'])
                 ->execute();
 
@@ -56,19 +61,23 @@ class DaoComponent extends Component
                     ])
             ->execute();
         } catch (\Exception $e) {
-            \Yii::getLogger()->log($e->getMessage(),Logger::LEVEL_ERROR);
+            Yii::getLogger()->log($e->getMessage(),Logger::LEVEL_ERROR);
             $transaction->rollBack();
         }
     }
+
     /**
      * @return array getAllUsers()
      * @throws Exception
+     * @throws Throwable
      */
     public function getAllUsers()
     {
         $sql = 'select * from users;';
-        $db = $this->getDb();
-        return $db->createCommand($sql)->queryAll();
+        //return $this->getDb()->cache(function() use($sql){
+        //    return $this->getDb()->createCommand($sql)->queryAll();
+        //},6);
+        return $this->getDb()->createCommand($sql)->cache(15)->queryAll();
     }
 
     /**
@@ -84,6 +93,7 @@ class DaoComponent extends Component
             ->innerJoin('users', 'activity.id_user=users.id')
             ->orderBy(['date_end' => SORT_DESC])
             ->createCommand()
+            ->cache(20)
             ->queryAll();
     }
 
@@ -95,6 +105,8 @@ class DaoComponent extends Component
     {
 
         $query = new Query();
+        //$dependency = new DbDependency(['sql' => 'select max(id_activity) from activity where id_user=' . (int)$id_user]);
+        $dependency = new TagDependency(['tags' => 'my_tag']);
 
         $query->select('count(id_activity) as cnt')
             ->from('activity');
@@ -103,7 +115,7 @@ class DaoComponent extends Component
                 ->addParams([':id_user' => $id_user]);
         }
 
-        return $query->createCommand()->queryScalar();
+        return $query->createCommand()->cache(0, $dependency)->queryScalar();
 
 
     }
@@ -116,7 +128,9 @@ class DaoComponent extends Component
     public function getActivityUser($id_user = 0)
     {
         $sql = 'SELECT * from activity WHERE id_user=:id_user';
-        return $this->getDb()->createCommand($sql, [':id_user' => $id_user])->queryAll();
+        $dependency = new DbDependency(['sql' => 'select max(id_activity) from activity where id_user=' . (int)$id_user]);
+        return $this->getDb()->createCommand($sql, [':id_user' => $id_user])
+            ->cache(6,$dependency)->queryAll();
     }
 
 
@@ -129,6 +143,6 @@ class DaoComponent extends Component
     public
     function getDb()
     {
-        return \Yii::$app->db;
+        return Yii::$app->db;
     }
 }

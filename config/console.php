@@ -19,8 +19,18 @@ $config = [
         ],
     ],
     'components' => [
+       //'cache' => [
+       //    'class' => 'yii\caching\FileCache',
+       //],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => 'yii\caching\MemCache',
+            'useMemcached' => true,
+            // 'servers' => [
+            //     [
+            //         'host' => 'localhost',
+            //         'port' => 11211,
+            //     ],
+            // ]
         ],
         'dao' => 'app\components\DaoComponent',
         'acts' => 'app\components\ActivityComponent',
@@ -38,10 +48,7 @@ $config = [
                 'username' => '',
                 'password' => '',
                 'port' => '2525', // 2525 465
-                //'host' =>'smtp.yandex.ru',
-                //'username' => 'geekbrains@onedeveloper.ru',
-                //'password' => 'gazWSX',
-                //'port' => '587', // стандартный порт шифрования
+ 
                 'encryption' => 'tls'//'tls'
             ],
         ],

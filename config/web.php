@@ -57,18 +57,19 @@ $config = [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'CNEQGE_XzvJU7dfAmDxrM9fZ2GMBvicG',
         ],
+      // 'cache' => [
+      //     'class' => 'yii\caching\FileCache',
+      // ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => 'yii\caching\MemCache',
+            'useMemcached' => true,
+           // 'servers' => [
+           //     [
+           //         'host' => 'localhost',
+           //         'port' => 11211,
+           //     ],
+           // ]
         ],
-        //'cache' => [
-        //    'class' => 'yii\caching\MemCache',
-        //    'servers' => [
-        //        [
-        //            'host' => 'localhost',
-        //            'port' => 11211,
-        //        ],
-        //    ]
-        //],
 
         'user' => [
             'identityClass' => 'app\models\Users',

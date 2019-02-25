@@ -56,7 +56,7 @@ class UsersBase extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return yii\db\ActiveQuery
      */
     public function getActivities()
     {
@@ -64,7 +64,7 @@ class UsersBase extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return yii\db\ActiveQuery
      */
     public function getAuth()
     {
