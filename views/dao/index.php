@@ -10,7 +10,9 @@
 /* @var $users app\models\Users */
 /* @var $auth app\models\AuthItems */
 /* @var $activities app\models\Activity */
+
 /* @var $cnt app\models\Activity */
+
 use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper; ?>
 
@@ -39,25 +41,34 @@ use yii\helpers\VarDumper; ?>
                 <?= VarDumper::dump($users); ?>
          </pre>
 </div>
+<?php if ($this->beginCache('act', [
+    'duration' => 30,
+    'variations' => [Yii::$app->language]
+])):
+?>
 
+    <div class="row">
+        <h2>Все события (пользователя 1) <?php echo $cnt; ?></h2>
+    </div>
+    <div class="container">
+        <?php foreach ($activities as $activity): ?>
+            <div class="col-md-4">
+                Юзер ID: <?= ArrayHelper::getValue($activity, 'id'); ?>
+                <br>Юзер: <?= ArrayHelper::getValue($activity, 'username'); ?>
+                , <?= ArrayHelper::getValue($activity, 'email'); ?>
+                <br>Событие: <?= ArrayHelper::getValue($activity, 'title'); ?>
+                <br><?= ArrayHelper::getValue($activity, 'date_start'); ?>
+                <br><br>
+            </div>
+        <?php endforeach; ?>
+    </div>
 
-<div class="row">
-    <h2>Все события (пользователя 1) <?php echo $cnt; ?></h2>
-</div>
-<div class="container">
-    <?php foreach ($activities as $activity): ?>
-        <div class="col-md-4">
-            Юзер ID: <?= ArrayHelper::getValue($activity, 'id'); ?>
-            <br>Юзер: <?= ArrayHelper::getValue($activity, 'username'); ?>, <?= ArrayHelper::getValue($activity, 'email'); ?>
-            <br>Событие: <?= ArrayHelper::getValue($activity, 'title'); ?>
-            <br><?= ArrayHelper::getValue($activity, 'date_start'); ?>
-            <br><br>
-        </div>
-    <?php endforeach; ?>
-</div>
+<?php $this->endCache();endif; ?>
+
 <div class="row"><pre>
 
-               <?= VarDumper::dump($activities); ?>
+               <?php //<?= VarDumper::dump($activities);
+               ?>
             </pre>
 </div>
 

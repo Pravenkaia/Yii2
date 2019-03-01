@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Exception;
 use yii\caching\TagDependency;
+use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
@@ -51,6 +52,18 @@ class Users extends UsersBase implements IdentityInterface
         ], parent::rules());
     }
 
+    /**
+     * @return array
+     */
+    public function events()
+    {
+        return [
+            ActiveRecord::EVENT_AFTER_INSERT => 'deleteCache',
+            ActiveRecord::EVENT_AFTER_UPDATE => 'deleteCache',
+            ActiveRecord::EVENT_AFTER_DELETE => 'deleteCache',
+        ];
+    }
+
 
     /**
      * @param $pass
@@ -87,7 +100,7 @@ class Users extends UsersBase implements IdentityInterface
     {
         $query = self::find();
         return $query->andWhere(['id' => $id])
-            ->cache(true,new TagDependency(['tags' => 'my_tag']))->one();
+            ->cache(6000,new TagDependency(['tags' => 'my_tag']))->one(); //используется в DaoComponent
         //return self::findOne($id);
     }
 
@@ -96,14 +109,14 @@ class Users extends UsersBase implements IdentityInterface
      * @param mixed $token the token to be looked for
      * @param mixed $type the type of the token. The value of this parameter depends on the implementation.
      * For example, [[\yii\filters\auth\HttpBearerAuth]] will set this parameter to be `yii\filters\auth\HttpBearerAuth`.
-     * @return IdentityInterface the identity object that matches the given token.
+     * @return array|\yii\db\ActiveRecord
      * Null should be returned if such an identity cannot be found
      * or the identity is not in an active state (disabled, deleted, etc.)
      */
     public
     static function findIdentityByAccessToken($token, $type = null)
     {
-
+        return Users::find()->andWhere(['token' => $token])->one();
     }
 
     /**

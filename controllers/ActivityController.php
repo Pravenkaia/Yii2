@@ -10,6 +10,7 @@ namespace app\controllers;
 
 
 use app\base\BaseController;
+use app\controllers\actions\ActivityDeleteAction;
 use app\controllers\actions\ActivityFormAction;
 use app\controllers\actions\ActivityIndexAction;
 use app\controllers\actions\ActivityView;
@@ -31,6 +32,7 @@ class ActivityController extends BaseController
            'submit' => SubmitAction::class,
            'view' => ActivityView::class,
            'update' => ActivityFormAction::class,
+           'delete' => ActivityDeleteAction::class,
        ];
    }
 }

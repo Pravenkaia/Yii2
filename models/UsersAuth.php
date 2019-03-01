@@ -54,11 +54,12 @@ class UsersAuth extends Users
     public function auth()
     {
             $user = $this->passwordValidator();
+        //echo '<pre>'; var_dump($user); '</pre>'; exit;
             if (!$user) {
                 return false;
             } else {
                 Yii::$app->user->login($user, 3600);
-                return $user;
+                return true;
             }
     }
 

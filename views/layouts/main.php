@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use app\widgets\Alert;
@@ -42,11 +43,23 @@ AppAsset::register($this);
             ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
             ['label' => Yii::t('app', 'Activities'), 'url' => ['/activity/']],
             ['label' => Yii::t('app', 'Create Activity'), 'url' => ['/activity/create']],
+
+            Yii::$app->user->isGuest ? (
+            ['label' => Yii::t('app', 'Personal account'), 'url' => ['/users/']]
+            ) : (
+            ['label' => Yii::t('app', 'Personal account'),
+                'url' => ['/users/'],
+                'items' => [
+                    ['label' => Yii::t('app', 'My activities'), 'url' => ['/activity/']],
+                    ['label' => Yii::t('app', 'Create Activity'), 'url' => ['/activity/create']],
+                    ['label' => Yii::t('app', 'My account'), 'url' => ['/users/']],
+                ]]),
+
             ['label' => Yii::t('app', 'Registration'), 'url' => ['/auth/sign-up']],
             ['label' => Yii::t('app', 'Authorization'), 'url' => ['/auth/sign-in']],
-          //  ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
-          //  ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
-          //  ['label' => Yii::t('app', 'Hello'), 'url' => ['/site/hello']],
+            //  ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
+            //  ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
+            //  ['label' => Yii::t('app', 'Hello'), 'url' => ['/site/hello']],
 
             Yii::$app->user->can('admin') ? (
             ['label' => Yii::t('app', 'Admin'),
@@ -54,10 +67,10 @@ AppAsset::register($this);
                 'items' => [
                     ['label' => Yii::t('app', 'Activities'), 'url' => ['/admin/activity']],
                     ['label' => Yii::t('app', 'Users'), 'url' => ['/admin/users']]
-            ]]) : (''),
+                ]]) : (''),
 
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/auth/sign-in']]
+            ['label' => 'Login', 'url' => ['/auth/sign-in']]
                 // было ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
                 '<li>'
@@ -75,16 +88,15 @@ AppAsset::register($this);
     ?>
 
 
-
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
 
-        <div class="panel panel-info" >
+        <div class="panel panel-info">
             <div class="panel-body">
-                <?=  Yii::$app->request->hostName.Yii::$app->session->getFlash('userPage'); ?>
+                <?= Yii::$app->request->hostName . Yii::$app->session->getFlash('userPage'); ?>
             </div>
             <br>
         </div>

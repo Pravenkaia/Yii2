@@ -56,25 +56,28 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'CNEQGE_XzvJU7dfAmDxrM9fZ2GMBvicG',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser'
+            ],
         ],
-      // 'cache' => [
-      //     'class' => 'yii\caching\FileCache',
-      // ],
+        // 'cache' => [
+        //     'class' => 'yii\caching\FileCache',
+        // ],
         'cache' => [
             'class' => 'yii\caching\MemCache',
             'useMemcached' => true,
-           // 'servers' => [
-           //     [
-           //         'host' => 'localhost',
-           //         'port' => 11211,
-           //     ],
-           // ]
+            // 'servers' => [
+            //     [
+            //         'host' => 'localhost',
+            //         'port' => 11211,
+            //     ],
+            // ]
         ],
 
         'user' => [
             'identityClass' => 'app\models\Users',
             'enableAutoLogin' => true,
-            'loginUrl' =>  'auth/sign-in',//['user/login']
+            'loginUrl' => 'auth/sign-in',//['user/login']
         ],
         'users' => 'app\components\UsersComponent',
         //'user' => [  // настройки из коробкм
@@ -105,7 +108,23 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => false,  // из методички
             'rules' => [
+                //'catchAll' => ['site/index'], // из методички не работает
+                'reg' => 'auth/sign-up',
+                'login' => 'auth/sign-in',
+                'events' => 'activity/index',
+                'events/view/<id:\d+>' => 'activity/view',
+                'events/delete/<id:\d+>' => 'activity/delete',
+                'events/update/<id:\d+>' => 'activity/update',
+                'events/create/<id:\d+>' => 'activity/create',
+                //'events/view/<id:\w+>' => 'activity/view', //текстовые URL. В БД создается поле с уникальным значением этого текстового URL адреса
+                'events/<action>' => 'activity/<action>',
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'activity-rest',
+                    'pluralize' => false, // запрещает создавать едниственное-множественное число для сущности. У нас одна Activity (Например, Activities - Activity)
+                ], //вместе с этим редактируем компонент request: добавляем parser (см. components)
             ],
         ],
 

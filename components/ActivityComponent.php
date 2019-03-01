@@ -16,6 +16,7 @@ use yii\db\Exception;
 use yii\helpers\FileHelper;
 use yii\web\HttpException;
 use yii\db\Query;
+use yii\web\NotFoundHttpException;
 
 class ActivityComponent extends Component
 {
@@ -36,6 +37,23 @@ class ActivityComponent extends Component
     public function getActivities($where, $params)
     {
         return $this->getModelActivity()::find()->andWhere($where, $params)->all();
+    }
+
+
+    /**
+     * @param $id
+     * @return bool
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function deleteActivity($id)
+    {
+        $model = $this->getActivity($id);
+        if ($model->delete()) {
+            return true;
+        };
+
+        return false;
     }
 
     /**
@@ -119,7 +137,7 @@ class ActivityComponent extends Component
             ->from('activity')
             ->innerJoin('users', 'activity.id_user=users.id')
             ->andWhere($where, $params)
-            ->orderBy(['id_user' => SORT_ASC,'date_start' => SORT_ASC])
+            ->orderBy(['id_user' => SORT_ASC, 'date_start' => SORT_ASC])
             ->createCommand()
             ->queryAll();
 

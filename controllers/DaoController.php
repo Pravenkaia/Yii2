@@ -12,17 +12,35 @@ namespace app\controllers;
 use app\base\BaseController;
 use app\components\DaoComponent;
 use Yii;
+use yii\caching\TagDependency;
 use yii\db\Exception;
+use yii\filters\PageCache;
 
 class DaoController extends BaseController
 {
+    public function behaviors()
+    {
+        return [
+            ['class' => PageCache::class,
+                'only' => ['index'],
+            ]
+        ];
+    }
+
     /**
      * @param int $id_user
      * @return string
      * @throws Exception
+     * @throws \Throwable
      */
     public function actionIndex($id_user = 1)
     {
+        /**
+         * удалить кэширование по тегу
+         * в классе Users метод findIdentity($id)в нем задан cache TagDependency
+         */
+        //TagDependency::invalidate(Yii::$app->cache,['my_tag']);
+
         /**
          * @var DaoComponent $dao
          */
@@ -30,7 +48,7 @@ class DaoController extends BaseController
 
         //$dao->queryTransact();
 
-       // echo '<pre>';var_dump($dao->getAuthItem()); echo '</pre>'; exit;
+        // echo '<pre>';var_dump($dao->getAuthItem()); echo '</pre>'; exit;
 
         return $this->render('index', [
             'users' => $dao->getAllUsers(),
@@ -58,11 +76,11 @@ class DaoController extends BaseController
         //    return $this->calculateSomething($user_id);
         // }
 
-        $value_cache = Yii::$app->cache->getOrSet($key_cache, function() use ($value){
+        $value_cache = Yii::$app->cache->getOrSet($key_cache, function () use ($value) {
             return $value;
         });
 
-        $value_cache2 = Yii::$app->cache->getOrSet($key_cache2, function() use ($value2){
+        $value_cache2 = Yii::$app->cache->getOrSet($key_cache2, function () use ($value2) {
             return $value2;
         });
 

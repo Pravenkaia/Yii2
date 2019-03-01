@@ -57,6 +57,16 @@ class UsersComponent extends Component
 
 
     /**
+     * @param $model
+     * @return mixed
+     */
+    public function newPass($model) {
+        $model->password = $model->new_password;
+        return $model->password;
+    }
+
+
+    /**
      * @return array|bool
      */
     public function auth()

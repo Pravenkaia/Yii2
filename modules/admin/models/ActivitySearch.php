@@ -54,6 +54,9 @@ class ActivitySearch extends Activity
     public function search($params)
     {
         $query = Activity::find();
+        //делаем cache (надо для пользователя. А у меня пока не сделать  нарушен MVC принцип. Не сделана отдельная модель для вывода всех актиностей)
+        $query->cache(20);
+
         /**
          * Жадная загрузка данных модели Users и AuthAssignment
          * для работы сортировки.

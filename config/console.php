@@ -48,7 +48,10 @@ $config = [
                 'username' => '',
                 'password' => '',
                 'port' => '2525', // 2525 465
- 
+                //'host' =>'smtp.yandex.ru',
+                //'username' => 'geekbrains@onedeveloper.ru',
+                //'password' => 'gazWSX',
+                //'port' => '587', // стандартный порт шифрования
                 'encryption' => 'tls'//'tls'
             ],
         ],
