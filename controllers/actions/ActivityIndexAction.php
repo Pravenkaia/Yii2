@@ -38,25 +38,27 @@ class ActivityIndexAction extends Action
             return $this->controller->render('error', ['error' => $error]);
         else:
 
-            Yii::$app->attachBehavior('myLog',['class' => InsertLogBehavior::class]);
+            Yii::$app->attachBehavior('myLog', ['class' => InsertLogBehavior::class]);
 
 
             if (Yii::$app->request->get('id_activity') > 0) {  //выбрано событие
                 $activity = Activity::findOne(Yii::$app->request->get('id_activity'));
 
                 if ($activity->id_user == Yii::$app->user->id
-                    || Yii::$app->user->can('admin')) {
+                    //  || Yii::$app->user->can('admin') // модуль админки создан, поэтому можно закомментинь
+                ) {
                     return $this->controller->render('view', ['model' => $activity]);
                 } else {
                     Yii::$app->session->setFlash('error', 'Доступ запрещен!');
                     return $this->controller->render('error', ['error' => 'Доступ запрещён']);
                 }
             } else { //все события
-                if (Yii::$app->user->can('admin'))
-                    $query = Activity::find(); //->orderBy('date_start')->all();
-                else
-                    $query = Activity::find()->where(['id_user' => Yii::$app->user->identity->getId()]); //->orderBy('date_end')->all();
-
+                //модуль админки создан, поэтому этот укусок кода не нужен
+                //if (Yii::$app->user->can('admin'))
+                //    $query = Activity::find(); //->orderBy('date_start')->all();
+                //else
+                //    $query = Activity::find()->where(['id_user' => Yii::$app->user->identity->getId()]); //->orderBy('date_end')->all();
+                $query = Activity::find()->where(['id_user' => Yii::$app->user->identity->getId()]); //->orderBy('date_end')->all();
 
                 $activitiesProvider = new ActiveDataProvider([
                     'query' => $query,

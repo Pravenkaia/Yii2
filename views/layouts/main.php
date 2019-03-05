@@ -42,6 +42,7 @@ AppAsset::register($this);
         'items' => [
             ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
             ['label' => Yii::t('app', 'Activities'), 'url' => ['/activity/']],
+            ['label' => Yii::t('app', 'Calendar'), 'url' => ['/calendar/']],
             ['label' => Yii::t('app', 'Create Activity'), 'url' => ['/activity/create']],
 
             Yii::$app->user->isGuest ? (

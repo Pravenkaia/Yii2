@@ -129,6 +129,26 @@ class ActivityComponent extends Component
      * @return array
      * @throws Exception
      */
+    public function getAllActivitiesDates($d)
+    {
+        $query = new Query();
+
+        return $query->select('*,*')
+            ->from('activity')
+            ->innerJoin('users', 'activity.id_user=users.id')
+            ->where(['>=', 'date_start', date('Y-m-d H:s:i', $d)])
+            ->andWhere(['<', 'date_start', date('Y-m-d H:s:i', $d + (60 * 60 * 24))])
+            //->orWhere(['<=', 'date_end', date('Y-m-d H:s:i', $d)])
+            ->orderBy(['date_end' => SORT_DESC])
+            ->createCommand()
+            ->queryAll();
+
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
     public function getAllActivitiesParams($where, $params)
     {
         $query = new Query();
