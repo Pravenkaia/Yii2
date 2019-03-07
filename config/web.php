@@ -113,6 +113,25 @@ $config = [
                 //'catchAll' => ['site/index'], // из методички не работает
                 'reg' => 'auth/sign-up',
                 'login' => 'auth/sign-in',
+                //[
+                ////    'class' => 'yii\web\UrlRule',
+                //    'calendar/<action:index|day>' => 'calendar/<action>',
+                //    'calendar/day/<year:\d+>/<month:\d+>/<day:\d+>/' => 'calendar/day',
+                //    'calendar/<year:\d+>/<month:\d+>' => 'calendar/index',
+                //    'calendar/<year:\d+>' => 'calendar/index',
+//
+                //    'calendar' => 'calendar/index',
+                //],
+                //'calendar/day/<year:\d{4}>/<month:\d+>/<day:\d+>/' => 'calendar/day',
+                //[
+                //    'class'=>'app\components\CalendarUrlClass'
+                //],
+                [
+                    'pattern' => 'calendar/<year:\d+>/<month:\d+>/<day:\d+>/<action:index|day>',
+                    'route' =>  'calendar/<action>',
+                    'defaults' => ['year' => '', 'month' => '', 'day' => ''],
+
+                ],
                 'events' => 'activity/index',
                 'events/view/<id:\d+>' => 'activity/view',
                 'events/delete/<id:\d+>' => 'activity/delete',
@@ -120,6 +139,8 @@ $config = [
                 'events/create/<id:\d+>' => 'activity/create',
                 //'events/view/<id:\w+>' => 'activity/view', //текстовые URL. В БД создается поле с уникальным значением этого текстового URL адреса
                 'events/<action>' => 'activity/<action>',
+
+
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'activity-rest',

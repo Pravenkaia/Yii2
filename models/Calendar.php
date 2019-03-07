@@ -117,13 +117,17 @@ class Calendar extends Widget
         else $m = 0;
         if (isset($_GET['year'])) $y = (int)$_GET['year'];
         else $y = 0;
-        if (isset($_GET['day'])) $d = (int)$_GET['day'];
+        if (isset($_GET['day']) && $_GET['day'] > 0) $d = (int)$_GET['day'];
         else $d = 1;
-
-        if ($m > 0 && $m < 13 && $y > 0) {
+        //echo '<br><br><br><br><br><br><br><br>';
+        //echo 'm=' . $m . '; d=' . $d . 'y=' . $y . '<br>';
+        //echo '<br><pre>'; var_dump($_GET); echo '</pre>';//exit;
+        if (checkdate($m, $d, $y)) {
             $this->time = strtotime($y . '-' . $m . '-' . $d . ' 00:00:00');
+            //echo '<br>(выбранное) m='; echo date('m',$this->time);//exit;
         } else {
             $this->time = time();
+            echo '<br>(настоящее) m='; echo date('m',$this->time);//exit;
         }
     }
 
@@ -162,12 +166,11 @@ class Calendar extends Widget
     /**
      * @return int
      */
-    public function getMonthBefore(): int
+    public function getMonthBefore()//: int
     {
         $this->month_before = $this->month - 1;
         if ($this->month_before < 1) {
             $this->month_before = 12;
-            $this->year_after++;
         }
         return $this->month_before;
     }
@@ -175,7 +178,7 @@ class Calendar extends Widget
     /**
      * @return int
      */
-    public function getMonthAfter(): int
+    public function getMonthAfter()//: int
     {
         $this->month_after = $this->month + 1;
         if ($this->month_after > 12) {
