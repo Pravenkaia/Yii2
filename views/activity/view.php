@@ -16,9 +16,9 @@ use yii\widgets\DetailView;
     <div class="row">
         <div class="col-md-12">
             <h2><?= $model->title; ?></h2>
-            <div><span>Дата старта: </span><?= $model->date_start; ?></div>
-            <div><span>Дата конца: </span><?= $model->date_end; ?></div>
-            <div><span>Описание: </span><br><?= $model->description; ?></div>
+            <div><span><?= Yii::t('app','Date start')?>: </span><?= $model->date_start; ?></div>
+            <div><span><?= Yii::t('app','Date end')?>: </span><?= $model->date_end; ?></div>
+            <div><?= Yii::t('app', 'Description:<br> {description}',['description' =>$model->description])?></div>
         </div>
     </div>
 <?php endif; ?>
@@ -31,7 +31,7 @@ echo DetailView::widget([
         'title',
         'description:html',
         [
-            'label' => 'Автор',
+            'label' => Yii::t('app','Author'),
             'value' => $model->id_user,
             'contentOptions' => ['class' => 'bg-red'],
             'captionOptions' => ['tooltip' => 'Tooltip'],
