@@ -15,6 +15,7 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'language' => 'ru-RU',
+
     'bootstrap' => ['log'],
     //'defaultRoute'=>'activity',
     'aliases' => [
@@ -104,6 +105,20 @@ $config = [
             ],
         ],
         'db' => $db,
+
+        //создаем папку messages с папками языков
+        //создаем файл app.php храним переводы в файле
+        'i18n' => [
+            'translations' => [
+                'class' => \yii\i18n\PhpMessageSource::class,
+                'fileMap' => [
+                    'app' => 'app.php',
+                    'app/error' => 'error.php',
+                ]
+            ]
+
+        ],
+
         // ЧПУ-адреса
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -128,7 +143,7 @@ $config = [
                 //],
                 [
                     'pattern' => 'calendar/<year:\d+>/<month:\d+>/<day:\d+>/<action:index|day>',
-                    'route' =>  'calendar/<action>',
+                    'route' => 'calendar/<action>',
                     'defaults' => ['year' => '', 'month' => '', 'day' => ''],
 
                 ],

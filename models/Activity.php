@@ -106,12 +106,12 @@ class Activity extends ActivityBase
      */
     public function attributeLabels()
     {
-        return [
+        return array_merge([
             'picture' => \Yii::t('app', 'Add images'),
             'document' => \Yii::t('app', 'Add a file (pdf only)'),
             'userName' => \Yii::t('app', 'User name'),
             //'username' => \Yii::t('app', 'User name'),
-        ];
+        ], parent::attributeLabels());
     }
 
 

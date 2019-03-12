@@ -127,7 +127,7 @@ class Calendar extends Widget
             //echo '<br>(выбранное) m='; echo date('m',$this->time);//exit;
         } else {
             $this->time = time();
-            echo '<br>(настоящее) m='; echo date('m',$this->time);//exit;
+            //echo '<br>(настоящее) m='; echo date('m',$this->time);//exit;
         }
     }
 
