@@ -24,8 +24,9 @@ return[
     'Author' => 'Автор',
     'Date Created' => 'Дата создания',
     'Date Changed' => 'Дата изменения',
-    '' => '',
-    '' => '',
+    'Activity created date: {0} {1}' => 'Дата создания события {0} {1}',
+    'Date start: {0, date, dd.MM.yyy}' => 'Дата начала: {0, date, dd.MM.yyy}',
+    'Date start: {0}' => 'Дата начала: {0, date, dd.MM.yyy}',
     '' => '',
 
 ];

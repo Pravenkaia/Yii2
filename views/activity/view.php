@@ -17,8 +17,11 @@ use yii\widgets\DetailView;
         <div class="col-md-12">
             <h2><?= $model->title; ?></h2>
             <div><span><?= Yii::t('app','Date start')?>: </span><?= $model->date_start; ?></div>
+            <div><span><?= Yii::t('app','Date start: {0, date, dd.MM.yyy}', strtotime($model->date_start))?> (мультиязычность с позиционированием  форматированием)</div>
+            <div><span><?= Yii::t('app','Date start: {0}', strtotime($model->date_start))?> (мультиязычность с позиционированием  форматированием)</div>
             <div><span><?= Yii::t('app','Date end')?>: </span><?= $model->date_end; ?></div>
             <div><?= Yii::t('app', 'Description:<br> {description}',['description' =>$model->description])?></div>
+            <div><?= Yii::t('app', 'Activity created date: {0} {1}',[$model->date_created,$model->description])?> (мултиязычность с позиционированием)</div>
         </div>
     </div>
 <?php endif; ?>

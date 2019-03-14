@@ -17,6 +17,12 @@ $config = [
     'language' => 'ru-RU',
 
     'bootstrap' => ['log'],
+    'container' => [
+        'singletons' => [
+            'app\components\interfaces\NotificationInterface'
+            => ['class' => '\app\components\NotificationService'],
+        ]
+    ],
     //'defaultRoute'=>'activity',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -118,6 +124,8 @@ $config = [
             ]
 
         ],
+
+
 
         // ЧПУ-адреса
         'urlManager' => [

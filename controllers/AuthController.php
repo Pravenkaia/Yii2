@@ -20,6 +20,7 @@ class AuthController extends BaseController
 
     public function actionIndex()
     {
+        if (Yii::$app->user->isGuest) return Yii::$app->response->redirect(['/auth/sign-in']);
         $id = Yii::$app->user->identity->getId();
 
         if ($id > 0) {

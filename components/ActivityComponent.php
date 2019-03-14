@@ -29,6 +29,14 @@ class ActivityComponent extends Component
         return new Activity();
     }
 
+    ///**
+    // * @return Activity
+    // */
+    //public static function getModelActivity()
+    //{
+    //    return new Activity();
+    //}
+
     /**
      * @param $where
      * @param $params
